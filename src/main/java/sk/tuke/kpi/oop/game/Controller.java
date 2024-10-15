@@ -1,21 +1,27 @@
 package sk.tuke.kpi.oop.game;
 
-import sk.tuke.kpi.gamelib.framework.AbstractActor;
 import sk.tuke.kpi.gamelib.graphics.Animation;
 
-public class Controller extends AbstractActor {
+import java.util.Random;
+
+public class Controller {
+    private Animation animation;
     private Reactor reactor;
-    private Animation switchAnimation;
+    private boolean running;
 
-    // Конструктор, принимающий реактор в качестве параметра
     public Controller(Reactor reactor) {
+        this.animation = new Animation("sprites/switch.png", 16, 16);
         this.reactor = reactor;
-
-        switchAnimation = new Animation("sprites/switch.png", 16, 16, 0.1f);
-        setAnimation(switchAnimation);
     }
 
-    // Метод для переключения состояния реактора
+    public Reactor getReactor() {
+        return reactor;
+    }
+    public void setReactor(Reactor reactor) {
+        this.reactor = reactor;
+    }
+
+
     public void toggle() {
         if (reactor != null) {
             if (reactor.isRunning()) {
@@ -24,15 +30,11 @@ public class Controller extends AbstractActor {
                 reactor.turnOn();
             }
         }
+        reactor.updateAnimation();
     }
 
-    // Метод для получения текущего реактора
-    public Reactor getReactor() {
-        return reactor;
-    }
 
-    // Метод для замены управляемого реактора
-    public void setReactor(Reactor reactor) {
-        this.reactor = reactor;
+    public boolean isRunning() {
+        return running;
     }
 }
