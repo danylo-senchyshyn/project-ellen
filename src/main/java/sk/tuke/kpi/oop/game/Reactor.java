@@ -6,10 +6,10 @@ import sk.tuke.kpi.gamelib.graphics.Animation;
 public class Reactor extends AbstractActor {
     private int temperature;
     private int damage;
-    private Animation normalAnimation;
-    private Animation hotAnimation;
-    private Animation brokenAnimation;
-    private Animation offAnimation;
+    private final Animation normalAnimation;
+    private final Animation hotAnimation;
+    private final Animation brokenAnimation;
+    private final Animation offAnimation;
 
 
     public Reactor(int temperature, int damage) {
@@ -34,12 +34,12 @@ public class Reactor extends AbstractActor {
         if (damage < 33) {
             temperature += increment;
         } else if (damage < 66) {
-            temperature += Math.ceil(increment * 1.5);
+            temperature += (int) Math.round(increment * 1.5);
         } else {
             temperature += increment * 2;
         }
         if (temperature >= 2000) {
-            damage = (int) Math.floor((temperature - 2000) / 40);
+            damage = (int) Math.ceil((double) (temperature - 2000) / 40);
             if (damage > 100) {
                 damage = 100;
             }
@@ -52,7 +52,7 @@ public class Reactor extends AbstractActor {
         if (damage < 50) {
             temperature -= decrement;
         } else if (damage < 100) {
-            temperature -= Math.ceil(decrement * 1.5);
+            temperature -= (int) Math.ceil(decrement * 1.5);
         }
 
         updateAnimation();
