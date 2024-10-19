@@ -71,22 +71,18 @@ public class Reactor extends AbstractActor {
     }
 
     public void decreaseTemperature(int decrement) {
-        if (running && decrement > 0) {
-            if (damage >= 50 && damage < 100 && temperature > 0) {
-                decrement = (int) Math.round(decrement / 2);
-                temperature = temperature - decrement;
-            } else if (isBroken()) {
-                decrement = 0;
-            } else {
-                temperature = temperature - decrement;
+        if (decrement > 0 && !isBroken() && running) {
+            if (damage < 50) {
+                temperature -= decrement;
+            } else if (damage < 100) {
+                temperature -= (int) Math.ceil(0.5f * decrement);
             }
-            if (temperature < 0) {
-                temperature = 0;
-            }
-            updateAnimation();
-        } else {
-            return;
         }
+        if (temperature < 0) {
+            temperature = 0;
+        }
+
+        updateAnimation();
     }
 
     public void updateAnimation() {

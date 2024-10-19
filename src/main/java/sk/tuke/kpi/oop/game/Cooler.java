@@ -28,13 +28,26 @@ public class Cooler extends AbstractActor {
         return isOn;
     }
 
+    public void turnOn() {
+        isOn = true;
+        fanAnimation.play();
+    }
+
+    public void turnOff() {
+        isOn = false;
+        fanAnimation.pause();
+    }
+
     public void toggle() {
         isOn = !isOn;
     }
 
     private void coolReactor() {
-        if (reactor != null && isOn && reactor.isLaunched() && reactor.getTemperature() > 0)  {
-            reactor.decreaseTemperature(1);
+        if (reactor == null) {
+            return;
+        }
+        else if (isOn) {
+            this.reactor.decreaseTemperature(1);
         }
     }
 

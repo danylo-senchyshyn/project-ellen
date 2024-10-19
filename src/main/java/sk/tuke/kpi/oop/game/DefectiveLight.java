@@ -18,32 +18,22 @@ public class DefectiveLight extends Light {
         this.repaired = false;
     }
 
-    @Override
-    public void addedToScene(@NotNull Scene scene) {
-        super.addedToScene(scene);
-        this.disposeLight = new Loop<>(new Invoke<Actor>(this::changeLight)).scheduleFor(this);
-    }
-
-    public void breakLight() {
-        this.disposeLight = new Loop<>(new Invoke<>(this::changeLight)).scheduleFor(this);
-    }
-
     public void changeLight() {
+        repaired = false;
         int i = (int) (Math.random() * 20);
         if (i == 1) {
             super.toggle();
         }
     }
 
-    public boolean repair() {
-        if (disposeLight == null || repaired){
-            return false;
-        } else {
-            repaired = true;
-            disposeLight.dispose();
-        }
+    @Override
+    public void addedToScene(@NotNull Scene scene) {
+        super.addedToScene(scene);
+        this.disposeLight = new Loop<>(new Invoke<Actor>(this::changeLight)).scheduleFor(this);
+    }
 
-        this.disposeLight = new ActionSequence<>(new Wait<>(10), new Loop<>(new Invoke<>(this::toggle))).scheduleFor(this);
-        return true;
+
+    public void breakLight() {
+        this.disposeLight = new Loop<>(new Invoke<>(this::changeLight)).scheduleFor(this);
     }
 }
