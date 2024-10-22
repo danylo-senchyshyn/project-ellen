@@ -10,4 +10,9 @@ public class Mjolnir extends BreakableTool {
         hammerAnimation = new Animation("sprites/hammer.png");
         setAnimation(hammerAnimation);
     }
+
+    @Override
+    public void use() {
+        super.use();
+    }
 }

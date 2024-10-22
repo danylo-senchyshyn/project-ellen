@@ -8,10 +8,13 @@ import sk.tuke.kpi.oop.game.tools.FireExtinguisher;
 import sk.tuke.kpi.oop.game.tools.Hammer;
 import sk.tuke.kpi.oop.game.tools.Mjolnir;
 
-public class Reactor extends AbstractActor {
+import java.util.HashSet;
+import java.util.Set;
+
+public class Reactor extends AbstractActor implements Switchable, Repairable{
     private int temperature;
     private int damage;
-    private boolean running;
+    private boolean isOn;
     private Light light;
     private FireExtinguisher fireExtinguisher;
     private final Animation normalAnimation;
@@ -19,19 +22,21 @@ public class Reactor extends AbstractActor {
     private final Animation brokenAnimation;
     private final Animation offAnimation;
     private final Animation extinguishedAnimation;
+    private Set<EnergyConsumer> devices;
 
     public Reactor() {
         this.temperature = 0;
         this.damage = 0;
-        this.running = false;
+        this.isOn = false;
         this.light = null;
         this.fireExtinguisher = null;
+        devices = new HashSet<>();
 
         normalAnimation = new Animation("sprites/reactor_on.png", 80, 80, 0.1f, Animation.PlayMode.LOOP_PINGPONG);
         hotAnimation = new Animation("sprites/reactor_hot.png", 80, 80, 0.05f, Animation.PlayMode.LOOP_PINGPONG);
-        brokenAnimation = new Animation("sprites/reactor_broken.png", 80, 80, 0.1f, Animation.PlayMode.LOOP_PINGPONG);
-        offAnimation = new Animation("sprites/reactor.png", 80, 80);
-        extinguishedAnimation = new Animation("sprites/reactor_extinguished.png");
+        brokenAnimation = new Animation("sprites/reactor_broken.png", 80, 80, 0.01f);
+        offAnimation = new Animation("sprites/reactor.png", 80, 80, 0.1f, Animation.PlayMode.LOOP_PINGPONG);
+        extinguishedAnimation = new Animation("sprites/reactor_extinguished.png",80,80);
 
         setAnimation(offAnimation);
     }
@@ -45,13 +50,32 @@ public class Reactor extends AbstractActor {
     }
 
     @Override
+    public Animation getAnimation() {
+        return super.getAnimation();
+    }
+
+    @Override
     public void addedToScene(Scene scene) {
         super.addedToScene(scene);
         new PerpetualReactorHeating(1).scheduleFor(this);
     }
 
+    public void addDevice(EnergyConsumer device) {
+        this.devices.add(device);
+        if (damage == 0 && isOn()) {
+            device.setPowered(true);
+        }
+        device.setPowered(isOn());
+    }
+
+    public void removeDevice(EnergyConsumer device){
+        device.setPowered(false);
+        this.devices.remove(device);
+
+    }
+
     public void increaseTemperature(int increment) {
-        if (increment < 0 || !running) return;
+        if (increment < 0 || !isOn) return;
 
         if (damage < 33) {
             temperature += increment;
@@ -71,7 +95,7 @@ public class Reactor extends AbstractActor {
     }
 
     public void decreaseTemperature(int decrement) {
-        if (decrement > 0 && !isBroken() && running) {
+        if (decrement > 0 && !isBroken() && isOn) {
             if (damage < 50) {
                 temperature -= decrement;
             } else if (damage < 100) {
@@ -103,67 +127,46 @@ public class Reactor extends AbstractActor {
 
     public void updateLight() {
         if (light != null) {
-            if (running && damage < 100) {
-                light.setElectricityFlow(true);
+            if (isOn && damage < 100) {
+                light.setPowered(true);
             } else {
-                light.setElectricityFlow(false);
+                light.setPowered(false);
             }
         }
     }
 
-    public void repairWith(Object object) {
-        if (object != null && damage > 0 && damage < 100) {
-            int previousDamage = damage;
+    public boolean repair() {
+        if ((damage > 0) && (damage < 100)) {
+            temperature = ((damage - 50) * 40) + 2000;
             damage = Math.max(damage - 50, 0);
-
-            if (object instanceof Hammer) {
-                ((Hammer) object).use();
-            } else if (object instanceof Mjolnir) {
-                ((Mjolnir) object).use();
-            }
-
-            int auxiliaryDamage = previousDamage - 50;
-            int newTemperature = 2000 + (auxiliaryDamage * 40);
-
-            if (newTemperature < temperature) {
-                temperature = newTemperature;
-            }
+            updateAnimation();
+            return true;
         }
-        updateAnimation();
+        return false;
+    }
+
+    public boolean extinguish() {
+        if (!isOn || damage == 0) {
+            return false;
+        } else {
+            this.temperature = this.getTemperature() - 4000;
+            setAnimation(extinguishedAnimation);
+            return true;
+        }
     }
 
     public void turnOn() {
-        this.running = true;
+        this.isOn = true;
         updateAnimation();
     }
 
     public void turnOff() {
-        this.running = false;
+        this.isOn = false;
         updateAnimation();
     }
 
-    public void addLight(Light light) {
-        this.light = light;
-        updateLight();
-    }
-
-    public void removeLight() {
-        if (this.light != null) {
-            this.light.setElectricityFlow(false);
-            this.light = null;
-        }
-        updateLight();
-    }
-
-    public void extinguishWith(FireExtinguisher fireExtinguisher) {
-        if (fireExtinguisher == null || fireExtinguisher.getRemainingUses() <= 0 || !isBroken()) return;
-        this.temperature = 4000;
-        setAnimation(extinguishedAnimation);
-        fireExtinguisher.use();
-    }
-
-    public boolean isRunning() {
-        return running;
+    public boolean isOn() {
+        return isOn;
     }
 
     public boolean isBroken() {
@@ -171,6 +174,6 @@ public class Reactor extends AbstractActor {
     }
 
     public boolean isLaunched() {
-        return running && light != null && light.getOn() && light.getPower();
+        return isOn && light != null && light.isOn() && light.getPower();
     }
 }

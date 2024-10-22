@@ -17,13 +17,8 @@ public class Hammer extends BreakableTool {
         return remainingUses;
     }
 
+    @Override
     public void use() {
-        if (remainingUses <= 0) return;
-        remainingUses--;
-        if (remainingUses <= 0) {
-            Scene scene = getScene();
-            assert scene != null;
-            scene.removeActor(this);
-        }
+        super.use();
     }
 }
