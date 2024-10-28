@@ -25,7 +25,6 @@ public class Reactor extends AbstractActor implements Switchable, Repairable{
         this.damage = 0;
         this.isOn = false;
         this.light = null;
-        //FireExtinguisher fireExtinguisher = null;
         devices = new HashSet<>();
 
         normalAnimation = new Animation("sprites/reactor_on.png", 80, 80, 0.1f, Animation.PlayMode.LOOP_PINGPONG);
@@ -103,20 +102,6 @@ public class Reactor extends AbstractActor implements Switchable, Repairable{
     }
 
     public void updateAnimation() {
-//        if (!isLaunched()) {
-//            setAnimation(offAnimation);
-//        }
-//
-//        if (temperature < 4000 && damage < 33) {
-//            setAnimation(normalAnimation);
-//        } else if (temperature < 6000 && damage < 100) {
-//            setAnimation(hotAnimation);
-//        } else {
-//            setAnimation(brokenAnimation);
-//        }
-//
-//        updateLight();
-
         if (!isOn) {
             if (damage < 100) {
                 setAnimation(offAnimation);
