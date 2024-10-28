@@ -4,11 +4,9 @@ import sk.tuke.kpi.gamelib.graphics.Animation;
 import sk.tuke.kpi.oop.game.Reactor;
 
 public class FireExtinguisher extends BreakableTool<Reactor> {
-    private final Animation extinguisherAnimation;
-
     public FireExtinguisher() {
         super(1);
-        extinguisherAnimation = new Animation("sprites/extinguisher.png");
+        Animation extinguisherAnimation = new Animation("sprites/extinguisher.png");
         setAnimation(extinguisherAnimation);
     }
 
@@ -17,7 +15,7 @@ public class FireExtinguisher extends BreakableTool<Reactor> {
         if (reactor == null) return;
 
         if (reactor.extinguish()) {
-            this.useWith(reactor);
+            super.useWith(reactor);
         }
     }
 }
