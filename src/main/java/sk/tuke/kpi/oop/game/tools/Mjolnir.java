@@ -3,15 +3,11 @@ package sk.tuke.kpi.oop.game.tools;
 import sk.tuke.kpi.gamelib.Actor;
 import sk.tuke.kpi.gamelib.graphics.Animation;
 
-public class Mjolnir extends BreakableTool<Actor> {
+public class Mjolnir extends Hammer {
+
     public Mjolnir() {
         super(4);
-        Animation hammerAnimation = new Animation("sprites/hammer.png");
-        setAnimation(hammerAnimation);
+        setAnimation(new Animation("sprites/hammer.png", 16, 16));
     }
-
-//    @Override
-//    public void useWith(Actor actor) {
-//        super.useWith(actor);
-//    }
 }
+

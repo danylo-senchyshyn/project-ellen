@@ -46,11 +46,6 @@ public class Reactor extends AbstractActor implements Switchable, Repairable{
         return damage;
     }
 
-//    @Override
-//    public Animation getAnimation() {
-//        return super.getAnimation();
-//    }
-
     @Override
     public void addedToScene(Scene scene) {
         super.addedToScene(scene);
