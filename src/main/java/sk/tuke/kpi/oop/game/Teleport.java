@@ -8,12 +8,11 @@ import java.awt.geom.Rectangle2D;
 
 public class Teleport extends AbstractActor {
     private boolean isPlayerInside;
-    private final Animation teleportAnimation;
     private Teleport destinationTeleport;
 
     public Teleport() {
         isPlayerInside = false;
-        teleportAnimation = new Animation("sprites/lift.png");
+        Animation teleportAnimation = new Animation("sprites/lift.png");
         setAnimation(teleportAnimation);
     }
 

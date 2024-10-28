@@ -5,8 +5,6 @@ import sk.tuke.kpi.gamelib.framework.AbstractActor;
 import sk.tuke.kpi.gamelib.graphics.Animation;
 import sk.tuke.kpi.oop.game.actions.PerpetualReactorHeating;
 import sk.tuke.kpi.oop.game.tools.FireExtinguisher;
-import sk.tuke.kpi.oop.game.tools.Hammer;
-import sk.tuke.kpi.oop.game.tools.Mjolnir;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -16,7 +14,6 @@ public class Reactor extends AbstractActor implements Switchable, Repairable{
     private int damage;
     private boolean isOn;
     private Light light;
-    private FireExtinguisher fireExtinguisher;
     private final Animation normalAnimation;
     private final Animation hotAnimation;
     private final Animation brokenAnimation;
@@ -29,7 +26,7 @@ public class Reactor extends AbstractActor implements Switchable, Repairable{
         this.damage = 0;
         this.isOn = false;
         this.light = null;
-        this.fireExtinguisher = null;
+        //FireExtinguisher fireExtinguisher = null;
         devices = new HashSet<>();
 
         normalAnimation = new Animation("sprites/reactor_on.png", 80, 80, 0.1f, Animation.PlayMode.LOOP_PINGPONG);
@@ -49,10 +46,10 @@ public class Reactor extends AbstractActor implements Switchable, Repairable{
         return damage;
     }
 
-    @Override
-    public Animation getAnimation() {
-        return super.getAnimation();
-    }
+//    @Override
+//    public Animation getAnimation() {
+//        return super.getAnimation();
+//    }
 
     @Override
     public void addedToScene(Scene scene) {
@@ -174,6 +171,6 @@ public class Reactor extends AbstractActor implements Switchable, Repairable{
     }
 
     public boolean isLaunched() {
-        return isOn && light != null && light.isOn() && light.getPower();
+        return isOn && light != null && light.isOn() && light.isPower();
     }
 }

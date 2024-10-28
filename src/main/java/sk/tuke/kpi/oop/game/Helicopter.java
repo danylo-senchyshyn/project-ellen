@@ -1,14 +1,12 @@
 package sk.tuke.kpi.oop.game;
 
 import sk.tuke.kpi.gamelib.actions.Invoke;
-import sk.tuke.kpi.gamelib.Scene;
 import sk.tuke.kpi.gamelib.framework.AbstractActor;
 import sk.tuke.kpi.gamelib.framework.Player;
 import sk.tuke.kpi.gamelib.framework.actions.Loop;
 import sk.tuke.kpi.gamelib.graphics.Animation;
 
 public class Helicopter extends AbstractActor {
-    private int newPositionX = 0, newPositionY = 0;
     private Animation animationDown;
     private Animation animationUp;
     private Animation animationLeft;
@@ -33,6 +31,7 @@ public class Helicopter extends AbstractActor {
 
         int deltaX = (int) Math.signum(refActor.getPosX() - this.getPosX());
         int deltaY = (int) Math.signum(refActor.getPosY() - this.getPosY());
+        int newPositionX = 0, newPositionY = 0;
 
         newPositionX = this.getPosX() + deltaX;
         newPositionY = this.getPosY() + deltaY;

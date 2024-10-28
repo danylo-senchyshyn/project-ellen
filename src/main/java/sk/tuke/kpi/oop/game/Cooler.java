@@ -11,7 +11,6 @@ public class Cooler extends AbstractActor implements Switchable {
     private boolean isOn;
     private final Animation fanAnimation;
     private Reactor reactor;
-    private Switchable switchable;
 
     public Cooler(Reactor reactor) {
         this.reactor = reactor;

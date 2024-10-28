@@ -18,7 +18,7 @@ public class Light extends AbstractActor implements Switchable, EnergyConsumer {
         setAnimation(offAnimation);
     }
 
-    public boolean getPower() {
+    public boolean isPower() {
         return isPowered;
     }
 
