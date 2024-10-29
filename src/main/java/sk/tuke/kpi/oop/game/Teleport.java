@@ -11,7 +11,7 @@ import java.awt.*;
 
 public class Teleport extends AbstractActor {
     private Teleport destination;
-    //private boolean playerTeleported;
+    private boolean playerTeleported;
 
     public Teleport(Teleport destination) {
         this.destination = destination;
@@ -29,6 +29,7 @@ public class Teleport extends AbstractActor {
         }
     }
 
+    /*
     public void teleportPlayer(Player player) {
         if (this.destination == null || getScene() == null) {
             return;
@@ -41,41 +42,42 @@ public class Teleport extends AbstractActor {
             player.setPosition(this.getPosX() + (this.getWidth() / 2) - (player.getWidth() / 2), this.getPosY() + (this.getHeight() / 2) - (player.getHeight() / 2));
         } else return;
     }
+     */
 
-//    private boolean isPlayerInZone(Player player) {
-//        Rectangle teleportBounds = new Rectangle(
-//            this.getPosX(),
-//            this.getPosY(),
-//            getAnimation().getWidth(),
-//            getAnimation().getHeight()
-//        );
-//
-//        Rectangle playerBounds = new Rectangle(
-//            player.getPosX(),
-//            player.getPosY(),
-//            player.getWidth(),
-//            player.getHeight()
-//        );
-//
-//        return teleportBounds.intersects(playerBounds);
-//    }
-//
-//    public void teleportPlayer(Player player) {
-//        if (this.destination == null || getScene() == null || player == null) {
-//            return;
-//        }
-//
-//        if (isPlayerInZone(player) && !playerTeleported) {
-//            int targetX = this.destination.getPosX() + (this.destination.getWidth() / 2) - (player.getWidth() / 2);
-//            int targetY = this.destination.getPosY() + (this.destination.getHeight() / 2) - (player.getHeight() / 2);
-//            player.setPosition(targetX, targetY);
-//
-//            this.playerTeleported = true;
-//            this.destination.playerTeleported = true;
-//        } else if (!isPlayerInZone(player)) {
-//            playerTeleported = false;
-//        }
-//    }
+    private boolean isPlayerInZone(Player player) {
+        Rectangle teleportBounds = new Rectangle(
+            this.getPosX(),
+            this.getPosY(),
+            getAnimation().getWidth(),
+            getAnimation().getHeight()
+        );
+
+        Rectangle playerBounds = new Rectangle(
+            player.getPosX(),
+            player.getPosY(),
+            player.getWidth(),
+            player.getHeight()
+        );
+
+        return teleportBounds.intersects(playerBounds);
+    }
+
+    public void teleportPlayer(Player player) {
+        if (this.destination == null || getScene() == null || player == null) {
+            return;
+        }
+
+        if (isPlayerInZone(player) && !playerTeleported) {
+            int targetX = this.destination.getPosX() + (this.destination.getWidth() - player.getWidth()) / 2;
+            int targetY = this.destination.getPosY() + (this.destination.getHeight() - player.getHeight()) / 2;
+            player.setPosition(targetX, targetY);
+
+            this.playerTeleported = true;
+            this.destination.playerTeleported = true;
+        } else if (!isPlayerInZone(player)) {
+            playerTeleported = false;
+        }
+    }
 
     @Override
     public void addedToScene(Scene scene) {
