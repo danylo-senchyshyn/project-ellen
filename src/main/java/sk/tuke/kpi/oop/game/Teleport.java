@@ -29,21 +29,6 @@ public class Teleport extends AbstractActor {
         }
     }
 
-    /*
-    public void teleportPlayer(Player player) {
-        if (this.destination == null || getScene() == null) {
-            return;
-        }
-
-        Point pointPlayer = new Point(  (player.getPosX() + player.getWidth() / 2), (player.getPosY() + player.getHeight() / 2) );
-        Point pointTeleport = new Point((this.getPosX() + this.getWidth() / 2),     (this.getPosY() + this.getHeight() / 2) );
-
-        if (pointTeleport.equals(pointPlayer)) {
-            player.setPosition(this.getPosX() + (this.getWidth() / 2) - (player.getWidth() / 2), this.getPosY() + (this.getHeight() / 2) - (player.getHeight() / 2));
-        } else return;
-    }
-     */
-
     private boolean isPlayerInZone(Player player) {
         Rectangle teleportBounds = new Rectangle(
             this.getPosX(),
@@ -67,7 +52,17 @@ public class Teleport extends AbstractActor {
             return;
         }
 
-        if (isPlayerInZone(player) && !playerTeleported) {
+        Point pointPlayer = new Point(
+            player.getPosX() + player.getWidth() / 2,
+            player.getPosY() + player.getHeight() / 2
+        );
+
+        Point pointTeleport = new Point(
+            this.getPosX() + this.getWidth() / 2,
+            this.getPosY() + this.getHeight() / 2
+        );
+
+        if (pointTeleport.equals(pointPlayer) && !playerTeleported) {
             int targetX = this.destination.getPosX() + (this.destination.getWidth() - player.getWidth()) / 2;
             int targetY = this.destination.getPosY() + (this.destination.getHeight() - player.getHeight()) / 2;
             player.setPosition(targetX, targetY);
