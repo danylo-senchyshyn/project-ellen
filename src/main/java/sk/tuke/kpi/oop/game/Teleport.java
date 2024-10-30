@@ -7,10 +7,9 @@ import sk.tuke.kpi.gamelib.framework.Player;
 import sk.tuke.kpi.gamelib.framework.actions.Loop;
 import sk.tuke.kpi.gamelib.graphics.Animation;
 
-import java.awt.*;
-
 public class Teleport extends AbstractActor {
     private Teleport destination;
+    private boolean canTeleport = true;
 
     public Teleport(Teleport destination) {
         this.destination = destination;
@@ -29,33 +28,51 @@ public class Teleport extends AbstractActor {
     }
 
     public void teleportPlayer(Player player) {
-        if (this.destination == null || getScene() == null || player == null)
-            return;
-
-        Point pointPlayer = new Point(
-            (player.getPosX() + player.getWidth() / 2),
-            (player.getPosY() + player.getHeight() / 2)
-        );
-
-        Point pointTeleport = new Point(
-            (this.getPosX() + this.getWidth() / 2),
-            (this.getPosY() + this.getHeight() / 2)
-        );
-
-        if (pointTeleport.equals(pointPlayer)) {
+        if (player != null) {
             player.setPosition(
-                destination.getPosX() + (destination.getWidth() / 2) - (player.getWidth() / 2),
-                destination.getPosY() + (destination.getHeight() / 2) - (player.getHeight() / 2)
+                this.getPosX() + (this.getWidth() / 2) - (player.getWidth() / 2),
+                this.getPosY() + (this.getHeight() / 2) - (player.getHeight() / 2)
             );
+            canTeleport = false;
+        }
+    }
+
+    public void resetTeleportFlag() {
+        Player player = getScene().getLastActorByType(Player.class);
+        if (!canTeleport && isPlayerOutside(player)) {
+            canTeleport = true;
+        }
+    }
+
+    private boolean isPlayerOutside(Player player) {
+        return (player.getPosX() + player.getWidth() < this.getPosX()) ||
+            (player.getPosX() > this.getPosX() + this.getWidth()) ||
+            (player.getPosY() + player.getHeight() < this.getPosY()) ||
+            (player.getPosY() > this.getPosY() + this.getHeight());
+    }
+
+    public void attemptTeleport() {
+        Player player = getScene().getLastActorByType(Player.class);
+        int playerCenterX = player.getPosX() + player.getWidth() / 2;
+        int playerCenterY = player.getPosY() + player.getHeight() / 2;
+
+        boolean isPlayerInBounds =
+            (playerCenterX >= this.getPosX()) &&
+            (playerCenterX <= this.getPosX() + this.getWidth()) &&
+            (playerCenterY >= this.getPosY()) &&
+            (playerCenterY <= this.getPosY() + this.getHeight());
+
+        if (canTeleport && !isPlayerOutside(player) && this.destination != null && isPlayerInBounds) {
             destination.teleportPlayer(player);
-        } else {
-            return;
         }
     }
 
     @Override
     public void addedToScene(Scene scene) {
         super.addedToScene(scene);
-        new Loop<>(new Invoke<>(this::teleportPlayer)).scheduleFor(getScene().getFirstActorByType(Player.class));
+        Player player = getScene().getLastActorByType(Player.class);
+
+        new Loop<>(new Invoke<>(this::attemptTeleport)).scheduleFor(player);
+        new Loop<>(new Invoke<>(this::resetTeleportFlag)).scheduleFor(player);
     }
 }
