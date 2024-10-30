@@ -29,7 +29,8 @@ public class Teleport extends AbstractActor {
     }
 
     public void teleportPlayer(Player player) {
-        if (this.destination == null || getScene() == null || player == null) return;
+        if (this.destination == null || getScene() == null || player == null)
+            return;
 
         Point pointPlayer = new Point(
             (player.getPosX() + player.getWidth() / 2),
@@ -43,9 +44,10 @@ public class Teleport extends AbstractActor {
 
         if (pointTeleport.equals(pointPlayer)) {
             player.setPosition(
-                this.getPosX() + (this.getWidth() / 2) - (player.getWidth() / 2),
-                this.getPosY() + (this.getHeight() / 2) - (player.getHeight() / 2)
+                destination.getPosX() + (destination.getWidth() / 2) - (player.getWidth() / 2),
+                destination.getPosY() + (destination.getHeight() / 2) - (player.getHeight() / 2)
             );
+            destination.teleportPlayer(player);
         } else {
             return;
         }
