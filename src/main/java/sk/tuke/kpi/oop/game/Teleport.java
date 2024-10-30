@@ -11,8 +11,6 @@ import sk.tuke.kpi.gamelib.graphics.Point;
 
 public class Teleport extends AbstractActor {
     private Teleport destination;
-    private boolean teleported;
-    private boolean playerInTeleport;
 
     public Teleport(Teleport destination) {
         this.destination = destination;
