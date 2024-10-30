@@ -16,6 +16,5 @@ public class PerpetualReactorHeating extends AbstractAction<Reactor> {
         if (reactor!=null) {
             reactor.increaseTemperature(heatingAmount);
         }
-        //reactor.updateAnimation();
     }
 }
