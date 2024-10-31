@@ -12,6 +12,7 @@ import sk.tuke.kpi.gamelib.graphics.Point;
 public class Teleport extends AbstractActor {
     private Teleport destination;
     private boolean teleported;
+    private boolean playerInZoneTeleport;
 
     public Teleport(Teleport destination) {
         this.destination = destination;
@@ -33,17 +34,7 @@ public class Teleport extends AbstractActor {
         if (this.destination == null || getScene() == null || player == null)
             return;
 
-        Point pointPlayerCentre = new Point(
-            (player.getPosX() + player.getWidth() / 2),
-            (player.getPosY() + player.getHeight() / 2)
-        );
-
-        Point pointTeleportCentre = new Point(
-            (this.getPosX() + this.getWidth() / 2),
-            (this.getPosY() + this.getHeight() / 2)
-        );
-
-        if (pointTeleportCentre.equals(pointPlayerCentre) && !teleported) {
+        if (playerInZoneTeleport && !teleported) {
             player.setPosition(
                 destination.getPosX() + (destination.getWidth() / 2)  - (player.getWidth()  / 2),
                 destination.getPosY() + (destination.getHeight() / 2) - (player.getHeight() / 2)
@@ -53,7 +44,7 @@ public class Teleport extends AbstractActor {
         }
     }
 
-    private void isPlayerOutside() {
+    private void playerCondition() {
         Player player = getScene().getLastActorByType(Player.class);
         if ((player.getPosX() + player.getWidth() < this.getPosX()) ||
             (player.getPosX() > this.getPosX() + this.getWidth()) ||
@@ -62,6 +53,15 @@ public class Teleport extends AbstractActor {
         {
             teleported = false;
         }
+
+        if ((player.getPosX() + player.getWidth() / 2 > this.getPosX()) &&
+            (player.getPosY() + player.getHeight() /2 > this.getPosY()) &&
+            (player.getPosX() + player.getWidth() / 2 < this.getPosX() + this.getWidth()) &&
+            (player.getPosY() + player.getHeight() / 2 < this.getPosY() + this.getHeight())) {
+            playerInZoneTeleport = true;
+        } else {
+            playerInZoneTeleport = false;
+        }
     }
 
     @Override
@@ -69,6 +69,6 @@ public class Teleport extends AbstractActor {
         super.addedToScene(scene);
         Player player = getScene().getLastActorByType(Player.class);
         new Loop<>(new Invoke<>(this::teleportPlayer)).scheduleFor(player);
-        new Loop<>(new Invoke<>(this::isPlayerOutside)).scheduleFor(player);
+        new Loop<>(new Invoke<>(this::playerCondition)).scheduleFor(player);
     }
 }
