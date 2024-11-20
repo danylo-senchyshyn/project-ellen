@@ -20,12 +20,13 @@ java {
 }
 
 application {
-    mainClassName = "sk.tuke.kpi.gamelib.framework.Main"
+    mainClassName = "sk.tuke.kpi.oop.game.Main"
 }
 
 dependencies {
     implementation("sk.tuke.kpi.gamelib:gamelib-framework:$gamelibVersion")
     implementation("sk.tuke.kpi.gamelib:gamelib-backend-$backend:$gamelibVersion")
+    implementation("sk.tuke.kpi.gamelib:gamelib-inspector:$gamelibVersion")
 }
 
 tasks {

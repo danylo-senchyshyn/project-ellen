@@ -28,10 +28,6 @@ public class DefectiveLight extends Light implements Repairable {
     @Override
     public void addedToScene(Scene scene) {
         super.addedToScene(scene);
-        this.disposeLight = new Loop<>(new Invoke<Actor>(this::changeLight)).scheduleFor(this);
-    }
-
-    public void breakLight() {
         this.disposeLight = new Loop<>(new Invoke<>(this::changeLight)).scheduleFor(this);
     }
 
