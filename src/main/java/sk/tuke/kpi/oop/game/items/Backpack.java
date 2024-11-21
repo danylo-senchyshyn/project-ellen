@@ -21,15 +21,12 @@ public class Backpack implements ActorContainer<Collectible> {
     public int getCapacity() {
         return capacity;
     }
-
     public List<Collectible> getContent() {
         return List.copyOf(itemsInBackpack);
     }
-
     public String getName() {
         return name;
     }
-
     public int getSize() {
         return itemsInBackpack.size();
     }

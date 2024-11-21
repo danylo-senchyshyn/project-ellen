@@ -1,9 +1,15 @@
 package sk.tuke.kpi.oop.game.scenarios;
 
 import sk.tuke.kpi.gamelib.Scene;
+import sk.tuke.kpi.gamelib.actions.ActionSequence;
+import sk.tuke.kpi.gamelib.actions.Invoke;
+import sk.tuke.kpi.gamelib.actions.Wait;
+import sk.tuke.kpi.gamelib.actions.When;
 import sk.tuke.kpi.gamelib.framework.Scenario;
 import sk.tuke.kpi.gamelib.map.MapMarker;
+import sk.tuke.kpi.oop.game.Cooler;
 import sk.tuke.kpi.oop.game.Reactor;
+import sk.tuke.kpi.oop.game.items.Hammer;
 
 import java.util.Map;
 
@@ -22,21 +28,21 @@ public class TrainingGameplay extends Scenario {
         reactor.turnOn();
 
         // Cooler
-//        Cooler cooler = new Cooler(reactor);
-//        scene.addActor(cooler, coolerArea1.getPosX(), coolerArea1.getPosY());
-//        cooler.turnOff();
-//        new ActionSequence<>(
-//            new Wait<>(5),
-//            new Invoke<>(cooler::turnOn)
-//        ).scheduleFor(cooler);
+        Cooler cooler = new Cooler(reactor);
+        scene.addActor(cooler, coolerArea1.getPosX(), coolerArea1.getPosY());
+        cooler.turnOff();
+        new ActionSequence<>(
+            new Wait<>(5),
+            new Invoke<>(cooler::turnOn)
+        ).scheduleFor(cooler);
 
         // Hammer
-//        Hammer hammer = new Hammer();
-//        scene.addActor(hammer, 200, 45);
-//        new When<>(
-//            () -> reactor.getTemperature() >= 3000,
-//            new Invoke<>(() -> hammer.useWith(reactor))
-//        ).scheduleFor(reactor);
+        Hammer hammer = new Hammer();
+        scene.addActor(hammer, 200, 45);
+        new When<>(
+            () -> reactor.getTemperature() >= 3000,
+            new Invoke<>(() -> hammer.useWith(reactor))
+        ).scheduleFor(reactor);
 
         // Computer
 //        Computer computer = new Computer();

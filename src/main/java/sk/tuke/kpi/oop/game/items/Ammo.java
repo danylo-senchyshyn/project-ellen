@@ -1,7 +1,6 @@
 package sk.tuke.kpi.oop.game.items;
 
 import sk.tuke.kpi.gamelib.framework.AbstractActor;
-
 import sk.tuke.kpi.gamelib.graphics.Animation;
 import sk.tuke.kpi.oop.game.characters.Ripley;
 
@@ -18,11 +17,9 @@ public class Ammo extends AbstractActor implements Usable<Ripley> {
     public void useWith(Ripley ripley) {
         if (ripley == null || ripley.getAmmo() == 500) return;
 
-        if (ripley.getEnergy() <= 450) {
-            ripley.setAmmo(ripley.getAmmo() + 50);
-        } else {
-            ripley.setAmmo(500);
-        }
+        ripley.setAmmo(
+            Math.min(ripley.getAmmo() + 50, 500)
+        );
 
         (Objects.requireNonNull(getScene())).removeActor(this);
     }

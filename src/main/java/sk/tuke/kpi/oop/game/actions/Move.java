@@ -16,7 +16,7 @@ public class Move<A extends Movable> implements Action<A> {
         this.duration = duration;
         this.direction = direction;
         isFirstTime = false;
-        this.isDone = false;
+        isDone = false;
     }
     public Move(Direction direction) {
         this.direction = direction;
@@ -50,23 +50,21 @@ public class Move<A extends Movable> implements Action<A> {
 
     @Override
     public void execute(float deltaTime) {
-        if (actor == null) return;
+        if (actor == null || isDone) return;
 
-        duration -= deltaTime;
-        isFirstTime = true;
-
-        if (isFirstTime && !isDone) {
+        if (!isFirstTime) {
             actor.startedMoving(direction);
+            isFirstTime = true;
         }
 
         actor.setPosition(
             actor.getPosX() + direction.getDx() * actor.getSpeed(),
             actor.getPosY() + direction.getDy() * actor.getSpeed());
 
+        duration -= deltaTime;
+
         if (Math.abs(deltaTime - this.duration) <= 1e-5f) {
             this.stop();
-            isFirstTime = false;
-
         }
     }
 

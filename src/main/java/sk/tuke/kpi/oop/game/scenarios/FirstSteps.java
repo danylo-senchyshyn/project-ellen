@@ -6,6 +6,7 @@ import sk.tuke.kpi.gamelib.SceneListener;
 import sk.tuke.kpi.gamelib.actions.Invoke;
 import sk.tuke.kpi.gamelib.actions.When;
 import sk.tuke.kpi.oop.game.characters.Ripley;
+import sk.tuke.kpi.oop.game.controllers.KeeperController;
 import sk.tuke.kpi.oop.game.controllers.MovableController;
 import sk.tuke.kpi.oop.game.items.*;
 
@@ -14,18 +15,22 @@ public class FirstSteps implements SceneListener {
     private Energy energy;
     private MovableController movableController;
     private Ammo ammo;
-    private Hammer hammer;
-    private Wrench wrench;
-    private FireExtinguisher fireExtinguisher;
-    //private KeeperController keeperController
+    Hammer hammer = new Hammer();
+    Wrench wrench = new Wrench();
+    FireExtinguisher fireExtinguisher = new FireExtinguisher();
+    private KeeperController keeperController;
 
     @Override
     public void sceneInitialized(Scene scene) {
         ripley = new Ripley();
         scene.addActor(ripley, 0, 0);
+        ripley.setEnergy(50);
+        ripley.setAmmo(200);
+
 
         movableController = new MovableController(ripley);
         scene.getInput().registerListener(movableController);
+
 
         energy = new Energy();
         scene.addActor(energy, -100, 50);
@@ -55,6 +60,10 @@ public class FirstSteps implements SceneListener {
 
         scene.getGame().pushActorContainer(ripley.getBackpack());
         ripley.getBackpack().shift();
+
+
+        keeperController = new KeeperController(ripley);
+        scene.getInput().registerListener(keeperController);
     }
 
     @Override

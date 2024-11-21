@@ -44,29 +44,14 @@ public enum Direction {
     }
 
     public Direction combine(Direction other) {
-        int newX;
-        int newY;
+        int combinedDx = Math.max(-1, Math.min(1, this.dx + other.getDx()));
+        int combinedDy = Math.max(-1, Math.min(1, this.dy + other.getDy()));
 
-        if (this == other)
-            return this;
-
-        if (getDx() == other.getDx())
-            newX = getDx();
-        else
-            newX = getDx() + other.getDx();
-
-        if (getDy() == other.getDy())
-            newY = getDy();
-        else
-            newY = getDy() + other.getDy();
-
-        Direction direction = NONE;
-
-        for (Direction value: Direction.values()) {
-            if (value.getDx() == newX && value.getDy() == newY) {
-                direction = value;
+        for (Direction value : Direction.values()) {
+            if (value.getDx() == combinedDx && value.getDy() == combinedDy) {
+                return value;
             }
         }
-        return direction;
+        return NONE;
     }
 }

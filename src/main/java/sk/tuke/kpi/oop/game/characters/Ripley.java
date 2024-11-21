@@ -10,7 +10,7 @@ import sk.tuke.kpi.oop.game.items.Backpack;
 
 import java.util.Objects;
 
-public class Ripley extends AbstractActor implements Movable, Keeper<Actor> {
+public class Ripley extends AbstractActor implements Movable, Keeper {
     private int speed;
     private int energy;
     private int ammo;
@@ -19,18 +19,33 @@ public class Ripley extends AbstractActor implements Movable, Keeper<Actor> {
 
     public Ripley() {
         super("Ellen");
-        speed = 2;
-        energy = 50;
-        ammo = 100;
-        backpack = new Backpack("Ripley's backpack",10);
         ripleyAnimation = new Animation("sprites/player.png", 32, 32, 0.1f, Animation.PlayMode.LOOP_PINGPONG);
         ripleyAnimation.stop();
         setAnimation(ripleyAnimation);
+        speed = 2;
+        energy = 100;
+        ammo = 100;
+        backpack = new Backpack("Ripley's backpack",10);
     }
 
     @Override
     public int getSpeed() {
         return this.speed;
+    }
+    public int getEnergy() {
+        return energy;
+    }
+    public void setEnergy(int energy) {
+        this.energy = energy;
+    }
+    public int getAmmo() {
+        return ammo;
+    }
+    public void setAmmo(int ammo) {
+        this.ammo = ammo;
+    }
+    public Backpack getBackpack() {
+        return backpack;
     }
 
     @Override
@@ -44,25 +59,5 @@ public class Ripley extends AbstractActor implements Movable, Keeper<Actor> {
     public void stoppedMoving() {
         ripleyAnimation.stop();
         setAnimation(ripleyAnimation);
-    }
-
-    public int getEnergy() {
-        return energy;
-    }
-
-    public void setEnergy(int energy) {
-        this.energy = energy;
-    }
-
-    public int getAmmo() {
-        return ammo;
-    }
-
-    public void setAmmo(int ammo) {
-        this.ammo = ammo;
-    }
-
-    public Backpack getBackpack() {
-        return backpack;
     }
 }
