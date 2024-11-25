@@ -1,6 +1,7 @@
 package sk.tuke.kpi.oop.game.characters;
 
 import sk.tuke.kpi.gamelib.Actor;
+import sk.tuke.kpi.gamelib.GameApplication;
 import sk.tuke.kpi.gamelib.framework.AbstractActor;
 import sk.tuke.kpi.gamelib.graphics.Animation;
 import sk.tuke.kpi.oop.game.Direction;
@@ -25,25 +26,30 @@ public class Ripley extends AbstractActor implements Movable, Keeper {
         speed = 2;
         energy = 100;
         ammo = 100;
-        backpack = new Backpack("Ripley's backpack",10);
+        backpack = new Backpack("Ripley's backpack", 10);
     }
 
     @Override
     public int getSpeed() {
         return this.speed;
     }
+
     public int getEnergy() {
         return energy;
     }
+
     public void setEnergy(int energy) {
         this.energy = energy;
     }
+
     public int getAmmo() {
         return ammo;
     }
+
     public void setAmmo(int ammo) {
         this.ammo = ammo;
     }
+
     public Backpack getBackpack() {
         return backpack;
     }
@@ -59,5 +65,12 @@ public class Ripley extends AbstractActor implements Movable, Keeper {
     public void stoppedMoving() {
         ripleyAnimation.stop();
         setAnimation(ripleyAnimation);
+    }
+
+    public void showRipleyState() {
+        int windowHeight = getScene().getGame().getWindowSetup().getHeight();
+        int yTextPos = windowHeight - GameApplication.STATUS_LINE_OFFSET;
+        getScene().getGame().getOverlay().drawText("Energy " + this.getEnergy(), 120, yTextPos);
+        getScene().getGame().getOverlay().drawText("Ammo " + this.getAmmo(), 320, yTextPos);
     }
 }

@@ -24,8 +24,8 @@ public class FirstSteps implements SceneListener {
     public void sceneInitialized(Scene scene) {
         ripley = new Ripley();
         scene.addActor(ripley, 0, 0);
-        ripley.setEnergy(50);
-        ripley.setAmmo(200);
+//        ripley.setEnergy(50);
+//        ripley.setAmmo(200);
 
 
         movableController = new MovableController(ripley);
@@ -48,18 +48,18 @@ public class FirstSteps implements SceneListener {
         ).scheduleFor(ripley);
 
 
-        scene.addActor(hammer, 100, -50);
-        scene.addActor(fireExtinguisher, 120, 40);
-        scene.addActor(wrench, -150, 200);
+//        scene.addActor(hammer, 100, -50);
+//        scene.addActor(fireExtinguisher, 120, 40);
+//        scene.addActor(wrench, -150, 200);
 
 
-        ripley.getBackpack().add(hammer);
-        ripley.getBackpack().add(fireExtinguisher);
-        ripley.getBackpack().add(wrench);
+//        ripley.getBackpack().add(hammer);
+//        ripley.getBackpack().add(fireExtinguisher);
+//        ripley.getBackpack().add(wrench);
 
 
-        scene.getGame().pushActorContainer(ripley.getBackpack());
-        ripley.getBackpack().shift();
+//        scene.getGame().pushActorContainer(ripley.getBackpack());
+//        ripley.getBackpack().shift();
 
 
         keeperController = new KeeperController(ripley);

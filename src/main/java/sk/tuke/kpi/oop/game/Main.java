@@ -7,6 +7,7 @@ import sk.tuke.kpi.gamelib.framework.Scenario;
 import sk.tuke.kpi.gamelib.inspector.InspectableScene;
 import sk.tuke.kpi.oop.game.characters.Ripley;
 import sk.tuke.kpi.oop.game.scenarios.FirstSteps;
+import sk.tuke.kpi.oop.game.scenarios.MissionImpossible;
 
 import java.util.List;
 
@@ -16,11 +17,11 @@ public class Main {
         WindowSetup windowSetup = new WindowSetup("Project Ellen", 800, 600);
         Game game = new GameApplication(windowSetup, new Lwjgl2Backend());
 
-        Scene scene = new World("world");
-        FirstSteps firstSteps = new FirstSteps();
+        Scene scene = new World("world", "maps/mission-impossible.tmx", new MissionImpossible.Factory());
+        MissionImpossible missionImpossible = new MissionImpossible();
 
-        scene.addListener(firstSteps);
         game.addScene(scene);
+        scene.addListener(missionImpossible);
         game.getInput().onKeyPressed(Input.Key.ESCAPE, game::stop);
         game.start();
     }

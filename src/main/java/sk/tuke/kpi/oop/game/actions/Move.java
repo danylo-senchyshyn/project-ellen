@@ -5,6 +5,8 @@ import sk.tuke.kpi.gamelib.actions.Action;
 import sk.tuke.kpi.oop.game.Direction;
 import sk.tuke.kpi.oop.game.Movable;
 
+import java.util.Objects;
+
 public class Move<A extends Movable> implements Action<A> {
     private float duration;
     private boolean isFirstTime;
@@ -18,11 +20,9 @@ public class Move<A extends Movable> implements Action<A> {
         isFirstTime = false;
         isDone = false;
     }
+
     public Move(Direction direction) {
-        this.direction = direction;
-        duration = 0;
-        isFirstTime = false;
-        isDone = false;
+        this(direction, 0);
     }
 
     @Override
@@ -61,9 +61,16 @@ public class Move<A extends Movable> implements Action<A> {
             actor.getPosX() + direction.getDx() * actor.getSpeed(),
             actor.getPosY() + direction.getDy() * actor.getSpeed());
 
+        assert getActor() != null;
+        if (Objects.requireNonNull(getActor().getScene()).getMap().intersectsWithWall(actor)) {
+            actor.setPosition(
+                actor.getPosX() - direction.getDx() * actor.getSpeed(),
+                actor.getPosY() - direction.getDy() * actor.getSpeed());
+        }
+
         duration -= deltaTime;
 
-        if (Math.abs(deltaTime - this.duration) <= 1e-5f) {
+        if (Math.abs(deltaTime - this.duration) <= 1e-5) {
             this.stop();
         }
     }
