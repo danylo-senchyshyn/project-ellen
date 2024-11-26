@@ -1,9 +1,15 @@
 package sk.tuke.kpi.oop.game.characters;
 
 import sk.tuke.kpi.gamelib.Actor;
+import sk.tuke.kpi.gamelib.Disposable;
 import sk.tuke.kpi.gamelib.GameApplication;
+import sk.tuke.kpi.gamelib.actions.ActionSequence;
+import sk.tuke.kpi.gamelib.actions.Invoke;
+import sk.tuke.kpi.gamelib.actions.Wait;
 import sk.tuke.kpi.gamelib.framework.AbstractActor;
+import sk.tuke.kpi.gamelib.framework.actions.Loop;
 import sk.tuke.kpi.gamelib.graphics.Animation;
+import sk.tuke.kpi.gamelib.messages.Topic;
 import sk.tuke.kpi.oop.game.Direction;
 import sk.tuke.kpi.oop.game.Keeper;
 import sk.tuke.kpi.oop.game.Movable;
@@ -17,6 +23,9 @@ public class Ripley extends AbstractActor implements Movable, Keeper {
     private int ammo;
     private Animation ripleyAnimation;
     private Backpack backpack;
+    private Disposable disposable;
+    public static final Topic<Ripley> RIPLEY_DIED = Topic.create("ripley died", Ripley.class);
+
 
     public Ripley() {
         super("Ellen");
@@ -27,6 +36,7 @@ public class Ripley extends AbstractActor implements Movable, Keeper {
         energy = 100;
         ammo = 100;
         backpack = new Backpack("Ripley's backpack", 10);
+        disposable = null;
     }
 
     @Override
@@ -65,6 +75,32 @@ public class Ripley extends AbstractActor implements Movable, Keeper {
     public void stoppedMoving() {
         ripleyAnimation.stop();
         setAnimation(ripleyAnimation);
+    }
+
+    public void decreaseEnergy() {
+        if (this.getEnergy() <= 0) {
+            this.setAnimation(new Animation("sprites/player_die.png", 32, 32, 0.1f, Animation.PlayMode.ONCE));
+            getScene().getMessageBus().publish(RIPLEY_DIED, this);
+        } else {
+            disposable = new Loop<>(
+                new ActionSequence<>(
+                    new Invoke<>(() -> {
+                        if (this.getEnergy() <= 0) {
+                            this.setAnimation(new Animation("sprites/player_die.png", 32, 32, 0.1f, Animation.PlayMode.ONCE));
+                            getScene().getMessageBus().publish(RIPLEY_DIED, this);
+                            return;
+                        } else {
+                            this.setEnergy(this.getEnergy() - 5);
+                        }
+                    }),
+                    new Wait<>(1)
+                )
+            ).scheduleFor(this);
+        }
+    }
+
+    public Disposable stopDecresingEnergy() {
+        return disposable;
     }
 
     public void showRipleyState() {

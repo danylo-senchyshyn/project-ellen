@@ -29,29 +29,28 @@ public class KeeperController implements KeyboardListener {
             new Shift<>().scheduleFor(keeper);
 
         if (key == Input.Key.U)
-            useAction();
+            useActionU();
 
         if (key == Input.Key.B)
-            useAction2();
+            useActionB();
     }
 
-    private void useAction() {
-        Usable<?> usable = null;
-        for (Actor actor : keeper.getScene().getActors()) {
-            if (Usable.class.isInstance(actor) && keeper.intersects(actor)) {
-                usable = Usable.class.cast(actor);
-                break;
-            }
-        }
+    private void useActionU() {
+        Usable<?> usable = keeper.getScene().getActors().stream()
+            .filter(Usable.class::isInstance)
+            .filter(keeper::intersects)
+            .map(Usable.class::cast)
+            .findFirst()
+            .orElse(null);
 
         if (usable != null) {
             new Use<>(usable).scheduleForIntersectingWith(keeper);
         }
     }
 
-    private void useAction2() {
+    private void useActionB() {
         if (Usable.class.isInstance(keeper.getBackpack().peek())) {
-            Use<?> use = new Use<>( (Usable<?>) keeper.getBackpack().peek());
+            Use<?> use = new Use<>((Usable<?>) keeper.getBackpack().peek());
             use.scheduleForIntersectingWith(keeper);
         }
     }

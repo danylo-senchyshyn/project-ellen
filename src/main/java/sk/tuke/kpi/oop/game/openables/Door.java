@@ -5,15 +5,18 @@ import sk.tuke.kpi.gamelib.Scene;
 import sk.tuke.kpi.gamelib.framework.AbstractActor;
 import sk.tuke.kpi.gamelib.graphics.Animation;
 import sk.tuke.kpi.gamelib.map.MapTile;
+import sk.tuke.kpi.gamelib.messages.Topic;
 import sk.tuke.kpi.oop.game.items.Usable;
 
 public class Door extends AbstractActor implements Openable, Usable<Actor> {
     private Animation doorAnimation;
     boolean isOpened;
+    public static final Topic<Door> DOOR_OPENED = Topic.create("door opened", Door.class);
+    public static final Topic<Door> DOOR_CLOSED = Topic.create("door closed", Door.class);
 
     public Door() {
-        doorAnimation = new Animation("sprites/vdoor.png", 16, 32, 0.1f, Animation.PlayMode.ONCE);
-        getAnimation().stop();
+        doorAnimation = new Animation("sprites/vdoor.png", 16, 32, 0.1f);
+        doorAnimation.stop();
         setAnimation(doorAnimation);
         isOpened = false;
     }
@@ -24,9 +27,11 @@ public class Door extends AbstractActor implements Openable, Usable<Actor> {
 
         getScene().getMap().getTile(getPosX() / 16, getPosY() / 16).setType(MapTile.Type.CLEAR);
         getScene().getMap().getTile(getPosX() / 16, getPosY() / 16 + 1).setType(MapTile.Type.CLEAR);
-        getAnimation().setPlayMode(Animation.PlayMode.ONCE_REVERSED);
+        getAnimation().setPlayMode(Animation.PlayMode.ONCE);
         getAnimation().play();
         setAnimation(doorAnimation);
+
+        getScene().getMessageBus().publish(DOOR_OPENED, this);
     }
 
     public void close() {
@@ -38,6 +43,8 @@ public class Door extends AbstractActor implements Openable, Usable<Actor> {
         getAnimation().setPlayMode(Animation.PlayMode.ONCE_REVERSED);
         getAnimation().play();
         setAnimation(doorAnimation);
+
+        getScene().getMessageBus().publish(DOOR_CLOSED, this);
     }
 
     public boolean isOpen(){

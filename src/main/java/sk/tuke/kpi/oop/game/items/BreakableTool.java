@@ -4,6 +4,8 @@ import sk.tuke.kpi.gamelib.Actor;
 import sk.tuke.kpi.gamelib.Scene;
 import sk.tuke.kpi.gamelib.framework.AbstractActor;
 
+import java.util.Objects;
+
 public abstract class BreakableTool<A extends Actor> extends AbstractActor implements Usable<A> {
     private int remainingUses;
 
@@ -17,12 +19,9 @@ public abstract class BreakableTool<A extends Actor> extends AbstractActor imple
 
     @Override
     public void useWith(A actor) {
-        if (remainingUses <= 0) return;
-        remainingUses--;
-        if (remainingUses <= 0) {
-            Scene scene = getScene();
-            assert scene != null;
-            scene.removeActor(this);
+        this.remainingUses--;
+        if (this.remainingUses == 0) {
+            Objects.requireNonNull(getScene()).removeActor(this);
         }
     }
 }

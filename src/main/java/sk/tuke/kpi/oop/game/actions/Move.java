@@ -21,8 +21,11 @@ public class Move<A extends Movable> implements Action<A> {
         isDone = false;
     }
 
-    public Move(Direction direction) {
-        this(direction, 0);
+    private Move(Direction direction) {
+        this.direction = direction;
+        duration = 0;
+        isDone = false;
+        isFirstTime = false;
     }
 
     @Override
