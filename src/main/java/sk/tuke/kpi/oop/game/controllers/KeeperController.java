@@ -1,6 +1,5 @@
 package sk.tuke.kpi.oop.game.controllers;
 
-import sk.tuke.kpi.gamelib.Actor;
 import sk.tuke.kpi.gamelib.Input;
 import sk.tuke.kpi.gamelib.KeyboardListener;
 import sk.tuke.kpi.oop.game.Keeper;
@@ -49,7 +48,7 @@ public class KeeperController implements KeyboardListener {
     }
 
     private void useActionB() {
-        if (Usable.class.isInstance(keeper.getBackpack().peek())) {
+        if (keeper.getBackpack().peek() instanceof Usable) {
             Use<?> use = new Use<>((Usable<?>) keeper.getBackpack().peek());
             use.scheduleForIntersectingWith(keeper);
         }

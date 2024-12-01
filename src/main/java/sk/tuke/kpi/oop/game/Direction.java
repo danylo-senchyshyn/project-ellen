@@ -20,7 +20,6 @@ public enum Direction {
         SOUTHEAST.angle = 225;
         SOUTHWEST.angle = 135;
         NORTHWEST.angle = 45;
-        NONE.angle = 0;
     }
 
     private final int dx, dy;
@@ -53,5 +52,16 @@ public enum Direction {
             }
         }
         return NONE;
+    }
+
+    public static Direction fromAngle(float angle) {
+        if (angle == 0) return NORTH;
+        if (angle == 45) return NORTHWEST;
+        if (angle == 180) return SOUTH;
+        if (angle == 90) return WEST;
+        if (angle == 135) return SOUTHWEST;
+        if (angle == 225) return SOUTHEAST;
+        if (angle == 270) return EAST;
+        else            return NORTHEAST;
     }
 }

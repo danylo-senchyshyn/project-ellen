@@ -7,7 +7,6 @@ import sk.tuke.kpi.gamelib.messages.Topic;
 import java.util.Objects;
 
 public class Ventilator extends AbstractActor implements Repairable {
-    private Animation ventilatorAnimation;
     boolean isDamage;
     public static final Topic<Ventilator> VENTILATOR_REPAIRED = Topic.create("ventilator repaired", Ventilator.class);
 
