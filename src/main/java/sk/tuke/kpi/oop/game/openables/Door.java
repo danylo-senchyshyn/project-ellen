@@ -56,7 +56,7 @@ public class Door extends AbstractActor implements Openable, Usable<Actor> {
         Objects.requireNonNull(getScene()).getMap().getTile(getPosX() / 16, getPosY() / 16).setType(MapTile.Type.CLEAR);
         getScene().getMap().getTile(getPosX() / 16, getPosY() / 16 + 1).setType(MapTile.Type.CLEAR);
 
-        doorAnimation.setPlayMode(Animation.PlayMode.ONCE_REVERSED);
+        doorAnimation.setPlayMode(Animation.PlayMode.ONCE);
         doorAnimation.play();
         doorAnimation.stop();
 
@@ -69,7 +69,7 @@ public class Door extends AbstractActor implements Openable, Usable<Actor> {
 
         Objects.requireNonNull(getScene()).getMap().getTile(getPosX() / 16, getPosY() / 16).setType(MapTile.Type.WALL);
         getScene().getMap().getTile(getPosX() / 16, getPosY() / 16 + 1).setType(MapTile.Type.WALL);
-        doorAnimation.setPlayMode(Animation.PlayMode.ONCE);
+        doorAnimation.setPlayMode(Animation.PlayMode.ONCE_REVERSED);
         doorAnimation.play();
         doorAnimation.stop();
         getScene().getMessageBus().publish(DOOR_CLOSED, this);

@@ -1,5 +1,6 @@
 package sk.tuke.kpi.oop.game.actions;
 
+import org.jetbrains.annotations.NotNull;
 import sk.tuke.kpi.gamelib.Actor;
 import sk.tuke.kpi.gamelib.Disposable;
 import sk.tuke.kpi.gamelib.Scene;
@@ -7,9 +8,9 @@ import sk.tuke.kpi.gamelib.framework.actions.AbstractAction;
 import sk.tuke.kpi.oop.game.items.Usable;
 
 public class Use<A extends Actor> extends AbstractAction<A> {
-    private Usable<A> item;
+    private final Usable<? super A> item;
 
-    public Use(Usable<A> item) {
+    public Use(Usable<? super A> item) {
         this.item = item;
     }
 
@@ -24,13 +25,18 @@ public class Use<A extends Actor> extends AbstractAction<A> {
     public Disposable scheduleForIntersectingWith(Actor mediatingActor) {
         Scene scene = mediatingActor.getScene();
         if (scene == null) return null;
-        Class<A> usingActorClass = item.getUsingActorClass();
+        Class<A> usingActorClass = (Class<A>) item.getUsingActorClass();
+        return scene.getActors().stream()  // ziskame stream aktérov na scene
+            .filter(mediatingActor::intersects)  // vyfiltrujeme akterov, ktori su v kolizii so sprostredkovatelom
+            .filter(usingActorClass::isInstance) // vyfiltrujeme akterov kompatibilneho typu
+            .map(usingActorClass::cast)  // vykoname pretypovanie streamu akterov
+            .findFirst()  // vyberieme prveho (ak taky existuje) aktera zo streamu
+            .map(this::scheduleFor)  // zavolame metodu `scheduleFor` s najdenym akterom a vratime `Disposable` objekt
+            .orElse(null);
+    }
 
-        for (Actor actor : scene) {
-            if (mediatingActor.intersects(actor) && usingActorClass.isInstance(actor)) {
-                return this.scheduleFor(usingActorClass.cast(actor));
-            }
-        }
-        return null;
+    @Override
+    public @NotNull Disposable scheduleFor(@NotNull A actor) {
+        return super.scheduleFor(actor);
     }
 }

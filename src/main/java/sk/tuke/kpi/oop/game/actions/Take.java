@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.Objects;
 
 
-public class Take<A extends Keeper> extends AbstractAction<A> {
-    private Keeper keeper;
+public class Take<K extends Keeper> extends AbstractAction<K> {
+    private final K keeper;
 
-    public Take(Keeper keeper) {
+    public Take(K keeper) {
         this.keeper = keeper;
     }
 
