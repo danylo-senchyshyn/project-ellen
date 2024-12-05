@@ -15,11 +15,10 @@ import sk.tuke.kpi.oop.game.characters.Ripley;
 
 public class SpawnPoint extends AbstractActor {
     private int remainingEnemies;
-    private final Animation birthplaceAnimation;
 
     public SpawnPoint(int maxEnemies) {
         remainingEnemies = maxEnemies;
-        birthplaceAnimation = new Animation("sprites/spawn.png", 32, 32, 0.1f);
+        Animation birthplaceAnimation = new Animation("sprites/spawn.png", 32, 32, 0.1f);
         setAnimation(birthplaceAnimation);
     }
 
@@ -58,7 +57,8 @@ public class SpawnPoint extends AbstractActor {
         Actor ripley = getScene().getFirstActorByType(Ripley.class);
         if (ripley == null) return false;
 
-        return this.intersects(ripley) || distanceTo(ripley) <= 50;
+        double distance = distanceTo(ripley);
+        return distance <= 50;
     }
 
     private double distanceTo(Actor actor) {

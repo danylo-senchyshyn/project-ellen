@@ -8,10 +8,8 @@ import sk.tuke.kpi.oop.game.Direction;
 import sk.tuke.kpi.oop.game.Movable;
 import sk.tuke.kpi.oop.game.actions.Move;
 
-import java.util.Random;
-
 public class RandomlyMoving implements Behaviour<Movable> {
-    private final Random random = new Random();
+    //private final Random random = new Random();
 
     public void randomMove(Movable actor) {
         int pomX = (int) (Math.random() * (3)) - 1;

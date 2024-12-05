@@ -64,7 +64,11 @@ public class MovableController implements KeyboardListener {
 
         if (currentDirection != null) {
             moveAction = new Move<>(currentDirection, Float.MAX_VALUE);
-            disposable = moveAction.scheduleFor( (Ripley) actor);
+            if (actor instanceof Ripley) {
+                disposable = moveAction.scheduleFor((Ripley) actor);
+            } else {
+                disposable = moveAction.scheduleFor(actor);
+            }
         }
     }
 

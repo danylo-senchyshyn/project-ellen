@@ -7,11 +7,13 @@ public class Health {
     private int maxHealth;
     private int currentHealth;
     private List<FatigueEffect> effect;
+    private boolean isExhausted;
 
     public Health(int initialHealth, int maxHealth) {
         this.currentHealth = initialHealth;
         this.maxHealth = maxHealth;
         this.effect = new ArrayList<>();
+        this.isExhausted = false;
     }
 
     public Health(int initialHealth) {
@@ -33,10 +35,14 @@ public class Health {
 
     public void refill(int amount) {
         currentHealth = Math.min(currentHealth + amount, maxHealth);
+        if (currentHealth > 0) {
+            isExhausted = false;
+        }
     }
 
     public void restore() {
         currentHealth = maxHealth;
+        isExhausted = false;
     }
 
     public void drain(int amount) {
@@ -45,6 +51,9 @@ public class Health {
     }
 
     public void exhaust() {
+        if (isExhausted) return;
+        isExhausted = true;
+
         currentHealth = 0;
         if (effect != null) {
             effect.forEach(FatigueEffect::apply);

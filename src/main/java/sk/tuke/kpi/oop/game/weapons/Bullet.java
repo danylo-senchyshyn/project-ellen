@@ -1,11 +1,9 @@
 package sk.tuke.kpi.oop.game.weapons;
 
-import org.jetbrains.annotations.NotNull;
 import sk.tuke.kpi.gamelib.Actor;
 import sk.tuke.kpi.gamelib.Scene;
 import sk.tuke.kpi.gamelib.actions.Invoke;
 import sk.tuke.kpi.gamelib.framework.AbstractActor;
-import sk.tuke.kpi.gamelib.framework.Player;
 import sk.tuke.kpi.gamelib.framework.actions.Loop;
 import sk.tuke.kpi.gamelib.graphics.Animation;
 import sk.tuke.kpi.oop.game.Direction;
@@ -14,11 +12,10 @@ import sk.tuke.kpi.oop.game.characters.Alive;
 import java.util.Objects;
 
 public class Bullet extends AbstractActor implements Fireable {
-    private Animation bulletAnimation;
     private int speed;
 
     public Bullet() {
-        bulletAnimation = new Animation("sprites/bullet.png", 16, 16);
+        Animation bulletAnimation = new Animation("sprites/bullet.png", 16, 16);
         setAnimation(bulletAnimation);
         speed = 5;
     }
@@ -46,12 +43,10 @@ public class Bullet extends AbstractActor implements Fireable {
 
     private void shot() {
         for (Actor actor : getScene().getActors()) {
-            if (this.intersects(actor)) {
-                if (actor instanceof Alive) {
-                    ((Alive) actor).getHealth().drain(30);
-                    collidedWithWall();
-                    return;
-                }
+            if (this.intersects(actor) && actor instanceof Alive) {
+                ((Alive) actor).getHealth().drain(30);
+                collidedWithWall();
+                return;
             }
         }
 
