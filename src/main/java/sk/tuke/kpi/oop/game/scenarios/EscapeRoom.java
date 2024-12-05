@@ -1,6 +1,8 @@
 package sk.tuke.kpi.oop.game.scenarios;
 
 import sk.tuke.kpi.gamelib.*;
+import sk.tuke.kpi.oop.game.Locker;
+import sk.tuke.kpi.oop.game.SpawnPoint;
 import sk.tuke.kpi.oop.game.Ventilator;
 import sk.tuke.kpi.oop.game.behaviours.RandomlyMoving;
 import sk.tuke.kpi.oop.game.characters.Alien;
@@ -11,7 +13,7 @@ import sk.tuke.kpi.oop.game.controllers.MovableController;
 import sk.tuke.kpi.oop.game.controllers.ShooterController;
 import sk.tuke.kpi.oop.game.items.*;
 import sk.tuke.kpi.oop.game.openables.Door;
-import sk.tuke.kpi.oop.game.openables.LockedDoor;
+//import sk.tuke.kpi.oop.game.openables.LockedDoor;
 
 public class EscapeRoom implements SceneListener {
 
@@ -19,20 +21,25 @@ public class EscapeRoom implements SceneListener {
         @Override
         public Actor create(String type, String name) {
             assert name != null;
+
+            if (name.contains("door") && type.equals("vertical")) {
+                return new Door(name, Door.Orientation.VERTICAL);
+            } else if (name.contains("door") && type.equals("horizontal")) {
+                return new Door(name, Door.Orientation.HORIZONTAL);
+            }
+
             switch (name) {
                 case "ellen":
                     return new Ripley();
                 case "energy":
                     return new Energy();
-                //case "access card":  return new AccessCard();
-                case "door":
-                    return new LockedDoor();
-                //case "locker":       return new Locker();
-                //case "ventilator":   return new Ventilator();
+                case "access card":  return new AccessCard();
+                case "locker":       return new Locker();
+                case "ventilator":   return new Ventilator();
                 case "alien":
                     return new Alien(100, new RandomlyMoving());
                 case "alien mother":
-                    return new MotherAlien(200, new RandomlyMoving());
+                    return new MotherAlien(new RandomlyMoving());
                 case "ammo":
                     return new Ammo();
                 default:
@@ -53,6 +60,9 @@ public class EscapeRoom implements SceneListener {
         Disposable movableCon = scene.getInput().registerListener(new MovableController(ellen));
         Disposable keeperCon = scene.getInput().registerListener(new KeeperController(ellen));
         Disposable shooterCon = scene.getInput().registerListener(new ShooterController(ellen));
+
+        SpawnPoint spawnPoint = new SpawnPoint(10);
+        scene.addActor(spawnPoint, 150, 250);
 
         FireExtinguisher fireExtinguisher = new FireExtinguisher();
         AccessCard accessCard = new AccessCard();

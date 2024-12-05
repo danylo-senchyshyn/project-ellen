@@ -5,6 +5,7 @@ import sk.tuke.kpi.gamelib.Actor;
 import sk.tuke.kpi.gamelib.Scene;
 import sk.tuke.kpi.gamelib.actions.Invoke;
 import sk.tuke.kpi.gamelib.framework.AbstractActor;
+import sk.tuke.kpi.gamelib.framework.Player;
 import sk.tuke.kpi.gamelib.framework.actions.Loop;
 import sk.tuke.kpi.gamelib.graphics.Animation;
 import sk.tuke.kpi.oop.game.Direction;
@@ -40,15 +41,22 @@ public class Bullet extends AbstractActor implements Fireable {
 
     @Override
     public void collidedWithWall() {
-        Objects.requireNonNull(getScene()).removeActor(this);
+        Objects.requireNonNull(this.getScene()).removeActor(this);
     }
 
     private void shot() {
         for (Actor actor : getScene().getActors()) {
-            if (this.intersects(actor) && (actor instanceof Alive)) {
-                ((Alive) actor).getHealth().drain(30);
-                collidedWithWall();
+            if (this.intersects(actor)) {
+                if (actor instanceof Alive) {
+                    ((Alive) actor).getHealth().drain(30);
+                    collidedWithWall();
+                    return;
+                }
             }
+        }
+
+        if (Objects.requireNonNull(getScene()).getMap().intersectsWithWall(this)) {
+            collidedWithWall();
         }
     }
 
@@ -59,5 +67,10 @@ public class Bullet extends AbstractActor implements Fireable {
             new Invoke<>(this::shot)
         ).scheduleFor(this);
 
+    }
+
+    @Override
+    public void stoppedMoving() {
+        Fireable.super.stoppedMoving();
     }
 }

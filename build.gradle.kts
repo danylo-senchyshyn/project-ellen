@@ -31,6 +31,6 @@ dependencies {
 
 tasks {
     withType<JavaCompile> {
-        options.compilerArgs.plusAssign("-parameters")
+        options.compilerArgs.addAll(listOf("-parameters", "-Xlint:unchecked,rawtypes", "-Werror"))
     }
 }
