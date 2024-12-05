@@ -15,9 +15,9 @@ public class FirstSteps implements SceneListener {
     private Energy energy;
     private MovableController movableController;
     private Ammo ammo;
-    Hammer hammer = new Hammer();
-    Wrench wrench = new Wrench();
-    FireExtinguisher fireExtinguisher = new FireExtinguisher();
+    private Hammer hammer = new Hammer();
+    private Wrench wrench = new Wrench();
+    private FireExtinguisher fireExtinguisher = new FireExtinguisher();
     private KeeperController keeperController;
 
     @Override
