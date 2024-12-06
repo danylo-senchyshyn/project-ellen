@@ -64,17 +64,18 @@ public class Move<A extends Movable> implements Action<A> {
             actor.getPosX() + direction.getDx() * actor.getSpeed(),
             actor.getPosY() + direction.getDy() * actor.getSpeed());
 
-        assert getActor() != null;
         if (Objects.requireNonNull(getActor().getScene()).getMap().intersectsWithWall(actor)) {
             actor.setPosition(
                 actor.getPosX() - direction.getDx() * actor.getSpeed(),
                 actor.getPosY() - direction.getDy() * actor.getSpeed());
+
+            actor.collidedWithWall();
         }
 
         duration -= deltaTime;
 
-        if (Math.abs(deltaTime - this.duration) <= 1e-5) {
-            this.stop();
+        if (duration <= 0) {
+            stop();
         }
     }
 
