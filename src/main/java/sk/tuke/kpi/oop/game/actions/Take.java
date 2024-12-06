@@ -11,10 +11,7 @@ import java.util.Objects;
 
 
 public class Take<K extends Keeper> extends AbstractAction<K> {
-    private final K keeper;
-
-    public Take(K keeper) {
-        this.keeper = keeper;
+    public Take() {
     }
 
     @Override
@@ -24,13 +21,13 @@ public class Take<K extends Keeper> extends AbstractAction<K> {
             return;
         }
 
-        Scene scene = keeper.getScene();
-        List<Actor> toolList = Objects.requireNonNull(keeper.getScene()).getActors();
+        Scene scene = getActor().getScene();
+        List<Actor> toolList = Objects.requireNonNull(getActor().getScene()).getActors();
 
         for (Actor tool : toolList) {
-            if (tool instanceof Collectible && tool.intersects(keeper)) {
+            if (tool instanceof Collectible && tool.intersects(getActor())) {
                 try {
-                    keeper.getBackpack().add(((Collectible) tool));
+                    getActor().getBackpack().add(((Collectible) tool));
 
                     assert scene != null;
                     scene.removeActor(tool);

@@ -19,10 +19,10 @@ public class KeeperController implements KeyboardListener {
     @Override
     public void keyPressed(Input.Key key) {
         if (key == Input.Key.ENTER)
-            new Take<>(keeper).scheduleFor(keeper);
+            new Take<>().scheduleFor(keeper);
 
         if (key == Input.Key.BACKSPACE)
-            new Drop<>(keeper).scheduleFor(keeper);
+            new Drop<>().scheduleFor(keeper);
 
         if (key == Input.Key.S)
             new Shift<>().scheduleFor(keeper);
