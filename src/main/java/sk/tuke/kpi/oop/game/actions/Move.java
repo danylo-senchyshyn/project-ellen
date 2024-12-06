@@ -79,6 +79,7 @@ public class Move<A extends Movable> implements Action<A> {
     }
 
     public void stop() {
+        if (actor == null) return;
         isDone = true;
         actor.stoppedMoving();
     }
