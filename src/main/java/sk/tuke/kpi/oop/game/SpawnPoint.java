@@ -58,7 +58,7 @@ public class SpawnPoint extends AbstractActor {
         if (ripley == null) return false;
 
         double distance = distanceTo(ripley);
-        return distance <= 500;
+        return distance <= 50;
     }
 
     private double distanceTo(Actor actor) {
