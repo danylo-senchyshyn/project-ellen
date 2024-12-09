@@ -13,7 +13,6 @@ import sk.tuke.kpi.oop.game.controllers.MovableController;
 import sk.tuke.kpi.oop.game.controllers.ShooterController;
 import sk.tuke.kpi.oop.game.items.*;
 import sk.tuke.kpi.oop.game.openables.Door;
-//import sk.tuke.kpi.oop.game.openables.LockedDoor;
 
 public class EscapeRoom implements SceneListener {
 
@@ -33,15 +32,20 @@ public class EscapeRoom implements SceneListener {
                     return new Ripley();
                 case "energy":
                     return new Energy();
-                case "access card":  return new AccessCard();
-                case "locker":       return new Locker();
-                case "ventilator":   return new Ventilator();
+                case "access card":
+                    return new AccessCard();
+                case "locker":
+                    return new Locker();
+                case "ventilator":
+                    return new Ventilator();
                 case "alien":
                     return new Alien(100, new RandomlyMoving());
                 case "alien mother":
                     return new MotherAlien(new RandomlyMoving());
                 case "ammo":
                     return new Ammo();
+                    case "spawn point":
+                        return new SpawnPoint(10);
                 default:
                     return null;
             }
