@@ -55,6 +55,5 @@ public class Helicopter extends AbstractActor {
         } else if (deltaY < 0) {
             setAnimation(animationUp);
         }
-
     }
 }

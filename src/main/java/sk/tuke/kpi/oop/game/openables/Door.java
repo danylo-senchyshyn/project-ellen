@@ -36,6 +36,14 @@ public class Door extends AbstractActor implements Openable, Usable<Actor> {
         isOpened = false;
     }
 
+    public Door(Orientation orientation) {
+        this.orientation = orientation;
+        setHelpAnimation(orientation);
+        setAnimation(doorAnimation);
+        doorAnimation.stop();
+        isOpened = false;
+    }
+
     @Override
     public void useWith(Actor actor) {
         if (isOpened)

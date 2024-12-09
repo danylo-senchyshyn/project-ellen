@@ -39,6 +39,8 @@ public class Teleport extends AbstractActor {
 
     public void resetTeleportFlag() {
         Player player = getScene().getLastActorByType(Player.class);
+        if (player == null) return;
+
         if (!canTeleport && isPlayerOutside(player)) {
             canTeleport = true;
         }
@@ -53,6 +55,8 @@ public class Teleport extends AbstractActor {
 
     public void attemptTeleport() {
         Player player = getScene().getLastActorByType(Player.class);
+        if (player == null || destination == null) return;
+
         int playerCenterX = player.getPosX() + player.getWidth() / 2;
         int playerCenterY = player.getPosY() + player.getHeight() / 2;
 
@@ -70,9 +74,13 @@ public class Teleport extends AbstractActor {
     @Override
     public void addedToScene(Scene scene) {
         super.addedToScene(scene);
-        Player player = getScene().getLastActorByType(Player.class);
 
-        new Loop<>(new Invoke<>(this::attemptTeleport)).scheduleFor(player);
-        new Loop<>(new Invoke<>(this::resetTeleportFlag)).scheduleFor(player);
+        new Loop<>(new Invoke<>(() -> {
+            Player player = getScene().getLastActorByType(Player.class);
+            if (player != null) {
+                new Loop<>(new Invoke<>(this::attemptTeleport)).scheduleFor(this);
+                new Loop<>(new Invoke<>(this::resetTeleportFlag)).scheduleFor(this);
+            }
+        })).scheduleFor(this);
     }
 }

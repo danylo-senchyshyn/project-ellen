@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="100" height="60" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="49">
+ <tileset firstgid="1" name="tileset01" tilewidth="16" tileheight="16" tilecount="500" columns="20">
+  <image source="alienbreed-sprites/tileset01.png" width="320" height="400"/>
+ </tileset>
+ <tileset firstgid="501" name="tileset02" tilewidth="16" tileheight="16" tilecount="500" columns="20">
+  <image source="alienbreed-sprites/tileset02.png" width="320" height="400"/>
+ </tileset>
+ <layer id="1" name="map" width="100" height="60">
+  <data encoding="base64" compression="zlib">
+   eJzt108uBEEUx/FK1wW4gHEGnICE2eEGnSAR7JGRsMUJLNA7q1ngAtocgTtwCvF7dCVverqClVl8P8lL9b+Qeb/Um+kQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADT4KUIoVY9q0bu2NZhEaque13PXalei//+NNPrpz6n/uleOae1p1pwtR9DOFCdqZb191ZU87puz863nk11RR5Z1ufU09P43Ufr+X0M1bXqPH5lYhmV1stF1ZLrrT9PeaTzJfL4s64+2/GDcrhRXTR5aL+UyiboPFw2ua2q1lT9Zj+kPNK9fiaPIXlkWZ99X9Pxo3K4Van31bCZV9ovQRkFXZ/YG1YDzbYTN9dy88r+539/7mk1avXP1o/m+8NVaftIM8z2jWUV2hlaKYtq8Is8RuSR1TWv6uZaqpk4nptf13VvQ7UZx+eVr3Z25JFnvdmL4ekuhnJXs6nX8Rtq1OyPlJtft5TDtmrH5dG1J3ze5JH37PaCMnnKzRf/PePXQ+VwpDp2eaT55Yv98Tt+NmmfVKsd88r691ZMvqfUxfj7Su59sG5de+f3VVZXn2fjZP8+AVj8mS0=
+  </data>
+ </layer>
+ <layer id="4" name="walls" width="100" height="60">
+  <data encoding="base64" compression="zlib">
+   eJzt1zEKwCAQRUHB+x8wN/AY6YPCFxKzxQxsYbuvkG0NAAAAAAAAAAAAAAAAAAAAAAAAgAqu/u4wN3o2yQ7TXeuxNoLd6HGOHrXoUcush//jP6sez7ceZ+hRix617PRwD34vvQdv0PNmRQ==
+  </data>
+ </layer>
+ <objectgroup id="8" name="actors">
+  <object id="5" name="ellen" x="1552" y="832" width="16" height="16"/>
+  <object id="21" name="teleport1" x="1536" y="896" width="48" height="48"/>
+  <object id="22" name="ammo" x="1536" y="880" width="16" height="16"/>
+  <object id="23" name="energy" x="1568" y="880" width="16" height="16"/>
+  <object id="24" name="door" type="vertical" x="1520" y="896" width="16" height="32"/>
+  <object id="25" name="access card" x="1504" y="880" width="16" height="16"/>
+  <object id="27" name="spawn point" x="1456" y="912" width="32" height="32"/>
+  <object id="31" name="locker" x="48" y="816" width="48" height="16"/>
+  <object id="36" name="alien" x="112" y="928" width="16" height="16"/>
+  <object id="38" name="mother alien" x="192" y="864" width="32" height="32"/>
+  <object id="40" name="reactor" x="224" y="832" width="80" height="80"/>
+  <object id="46" name="teleport" x="16" y="849" width="48" height="48"/>
+ </objectgroup>
+</map>

@@ -14,6 +14,7 @@ import sk.tuke.kpi.oop.game.characters.Ripley;
 
 public class SpawnPoint extends AbstractActor {
     private int remainingEnemies;
+    private boolean isSpawned = false;
 
     public SpawnPoint(int maxEnemies) {
         remainingEnemies = maxEnemies;
@@ -29,8 +30,7 @@ public class SpawnPoint extends AbstractActor {
             new ActionSequence<>(
                 new Invoke<>(this::spawnEnemy),
                 new Wait<>(3)
-            )
-        ).scheduleFor(this);
+            )).scheduleFor(this);
     }
 
     private void spawnEnemy() {
@@ -52,6 +52,8 @@ public class SpawnPoint extends AbstractActor {
             scene.addActor(alien, getPosX() + getWidth() / 2, getPosY() + getHeight() / 2);
             remainingEnemies--;
         }
+
+        new Wait<>(3).scheduleFor(this);
     }
 
     public void dispose() {
