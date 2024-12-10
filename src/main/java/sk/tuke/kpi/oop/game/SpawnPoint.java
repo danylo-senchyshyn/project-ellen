@@ -5,6 +5,7 @@ import sk.tuke.kpi.gamelib.Scene;
 import sk.tuke.kpi.gamelib.actions.ActionSequence;
 import sk.tuke.kpi.gamelib.actions.Invoke;
 import sk.tuke.kpi.gamelib.actions.Wait;
+import sk.tuke.kpi.gamelib.actions.When;
 import sk.tuke.kpi.gamelib.framework.AbstractActor;
 import sk.tuke.kpi.gamelib.framework.actions.Loop;
 import sk.tuke.kpi.gamelib.graphics.Animation;
@@ -14,7 +15,6 @@ import sk.tuke.kpi.oop.game.characters.Ripley;
 
 public class SpawnPoint extends AbstractActor {
     private int remainingEnemies;
-    private boolean isSpawned = false;
 
     public SpawnPoint(int maxEnemies) {
         remainingEnemies = maxEnemies;
@@ -27,10 +27,14 @@ public class SpawnPoint extends AbstractActor {
         super.addedToScene(scene);
 
         new Loop<>(
-            new ActionSequence<>(
-                new Invoke<>(this::spawnEnemy),
-                new Wait<>(3)
-            )).scheduleFor(this);
+            new When<>(
+                () -> isInBounds(),
+                new ActionSequence<>(
+                    new Invoke<>(this::spawnEnemy),
+                    new Wait<>(3)
+                )
+            )
+        ).scheduleFor(this);
     }
 
     private void spawnEnemy() {
@@ -44,16 +48,10 @@ public class SpawnPoint extends AbstractActor {
             return;
         }
 
-        int dx = ripley.getPosX() + ripley.getWidth() / 2 - getPosX() - getWidth() / 2;
-        int dy = ripley.getPosY() + ripley.getHeight() / 2 - getPosY() - getHeight() / 2;
+        Alien alien = new Alien(100, new RandomlyMoving());
+        scene.addActor(alien, getPosX() + getWidth() / 2, getPosY() + getHeight() / 2);
 
-        if (dx <= 50 && dy <= 50) {
-            Alien alien = new Alien(100, new RandomlyMoving());
-            scene.addActor(alien, getPosX() + getWidth() / 2, getPosY() + getHeight() / 2);
-            remainingEnemies--;
-        }
-
-        new Wait<>(3).scheduleFor(this);
+        remainingEnemies--;
     }
 
     public void dispose() {
@@ -61,5 +59,14 @@ public class SpawnPoint extends AbstractActor {
         if (getScene() != null) {
             getScene().cancelActions(this);
         }
+    }
+
+    private boolean isInBounds() {
+        Actor ripley = getScene().getFirstActorByType(Ripley.class);
+
+        int dx = ripley.getPosX() + ripley.getWidth() / 2 - getPosX() - getWidth() / 2;
+        int dy = ripley.getPosY() + ripley.getHeight() / 2 - getPosY() - getHeight() / 2;
+
+        return Math.sqrt(dy * dy + dx * dx) <= 500;
     }
 }
