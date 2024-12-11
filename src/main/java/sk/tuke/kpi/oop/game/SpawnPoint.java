@@ -5,9 +5,7 @@ import sk.tuke.kpi.gamelib.Scene;
 import sk.tuke.kpi.gamelib.actions.ActionSequence;
 import sk.tuke.kpi.gamelib.actions.Invoke;
 import sk.tuke.kpi.gamelib.actions.Wait;
-import sk.tuke.kpi.gamelib.actions.When;
 import sk.tuke.kpi.gamelib.framework.AbstractActor;
-import sk.tuke.kpi.gamelib.framework.actions.Loop;
 import sk.tuke.kpi.gamelib.graphics.Animation;
 import sk.tuke.kpi.oop.game.behaviours.RandomlyMoving;
 import sk.tuke.kpi.oop.game.characters.Alien;
@@ -26,14 +24,9 @@ public class SpawnPoint extends AbstractActor {
     public void addedToScene(Scene scene) {
         super.addedToScene(scene);
 
-        new Loop<>(
-            new When<>(
-                () -> isInBounds(),
-                new ActionSequence<>(
-                    new Invoke<>(this::spawnEnemy),
-                    new Wait<>(3)
-                )
-            )
+        new ActionSequence<>(
+            new Wait<>(3),
+            new Invoke<>(this::spawnEnemy)
         ).scheduleFor(this);
     }
 
