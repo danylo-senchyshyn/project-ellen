@@ -10,7 +10,7 @@ public class Locker extends AbstractActor implements Usable<Ripley> {
     private Animation lockerOpen;
     private Animation lockerClosed;
     private boolean isUsed;
-    public Item item;
+    private Item item;
     public enum Item {mjolnir, wrench, energy, ammo}
 
     public Locker(Item item) {

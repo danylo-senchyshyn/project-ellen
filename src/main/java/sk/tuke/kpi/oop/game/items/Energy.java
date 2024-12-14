@@ -7,6 +7,7 @@ import sk.tuke.kpi.oop.game.characters.Alive;
 import java.util.Objects;
 
 public class Energy extends AbstractActor implements Usable<Alive> {
+
     public Energy() {
         Animation energyAnimation = new Animation("sprites/energy.png", 16, 16);
         setAnimation(energyAnimation);

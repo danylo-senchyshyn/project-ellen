@@ -17,12 +17,19 @@ public abstract class Firearm {
     public int getAmmo() {
         return currentAmmo;
     }
+
     public int getMaxAmmo() {
         return maxAmmo;
     }
 
     public void reload(int newAmmo) {
-        currentAmmo = Math.min(maxAmmo, getAmmo() + newAmmo);
+        if (getAmmo() + newAmmo < maxAmmo) {
+            currentAmmo += newAmmo;
+        }
+        else {
+            currentAmmo = maxAmmo;
+        }
+        System.out.println("reload");
     }
 
     public Fireable fire() {
@@ -32,7 +39,6 @@ public abstract class Firearm {
         } else {
             return null;
         }
-
     }
 
     protected abstract Fireable createBullet();

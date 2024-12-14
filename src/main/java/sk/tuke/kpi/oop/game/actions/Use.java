@@ -16,22 +16,27 @@ public class Use<A extends Actor> extends AbstractAction<A> {
 
     @Override
     public void execute(float deltaTime) {
-        if (isDone()) return;
+        A actor = getActor();
 
-        item.useWith(getActor());
+        if (actor != null) {
+            System.out.println("use");
+            item.useWith(actor);
+        }
         setDone(true);
     }
 
     public Disposable scheduleForIntersectingWith(Actor mediatingActor) {
         Scene scene = mediatingActor.getScene();
         if (scene == null) return null;
-        Class<A> usingActorClass = item.getUsingActorClass();
-        for (Actor actor : scene) {
-            if (mediatingActor.intersects(actor) && usingActorClass.isInstance(actor)) {
-                return this.scheduleFor(usingActorClass.cast(actor));
-            }
-        }
-        return null;
+
+        Class<A> usingActorClass = item.getUsingActorClass();  // `usable` je spominana clenska premenna
+        return scene.getActors().stream()  // ziskame stream aktérov na scene
+            .filter(mediatingActor::intersects)  // vyfiltrujeme akterov, ktori su v kolizii so sprostredkovatelom
+            .filter(usingActorClass::isInstance) // vyfiltrujeme akterov kompatibilneho typu
+            .map(usingActorClass::cast)  // vykoname pretypovanie streamu akterov
+            .findFirst()  // vyberieme prveho (ak taky existuje) aktera zo streamu
+            .map(this::scheduleFor)  // zavolame metodu `scheduleFor` s najdenym akterom a vratime `Disposable` objekt
+            .orElse(null);  // v pripade, ze ziaden vyhovujuci akter nebol najdeny, vratime `null`
     }
 
     @Override

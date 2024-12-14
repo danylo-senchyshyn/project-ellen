@@ -18,7 +18,6 @@ public class MonsterBoss extends Alien {
     public void checkIsAlive() {
         if (this.getHealth().getValue() <= 0) {
             getScene().getMessageBus().publish(MONSTER_BOSS_DEAD, this);
-            System.out.println("monster boss dead");
         }
     }
 

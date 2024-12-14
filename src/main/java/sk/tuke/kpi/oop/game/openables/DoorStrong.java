@@ -1,18 +1,16 @@
 package sk.tuke.kpi.oop.game.openables;
 
-import sk.tuke.kpi.gamelib.Actor;
 import sk.tuke.kpi.gamelib.Scene;
 import sk.tuke.kpi.gamelib.graphics.Animation;
 import sk.tuke.kpi.gamelib.map.MapTile;
 import sk.tuke.kpi.gamelib.messages.Topic;
 
-import java.util.Objects;
 
 public class DoorStrong extends Door {
     public static final Topic<DoorStrong> DOOR_STRONG_OPENED = Topic.create("door strong opened", DoorStrong.class);
     public static final Topic<DoorStrong> DOOR_STRONG_CLOSED = Topic.create("door strong closed", DoorStrong.class);
     public enum DoorStrongNumber {first, second, third}
-    public DoorStrongNumber number;
+    private DoorStrongNumber number;
     private Animation animation;
 
     public DoorStrong() {

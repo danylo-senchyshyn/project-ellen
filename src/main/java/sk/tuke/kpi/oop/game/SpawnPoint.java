@@ -19,8 +19,6 @@ public class SpawnPoint extends AbstractActor {
     public SpawnPoint(int maxEnemies) {
         remainingEnemies = maxEnemies;
         setAnimation(new Animation("sprites/spawn.png", 32, 32, 0.1f));
-        //Animation birthplaceAnimation = new Animation("maps/alienbreed-sprites/hole.png", 32, 32, 0.3f, Animation.PlayMode.ONCE);
-        //setAnimation(birthplaceAnimation);
     }
 
     @Override
@@ -48,7 +46,6 @@ public class SpawnPoint extends AbstractActor {
             return;
         } else {
             Alien alien = new Alien(100, new FollowActor());
-            //Alien alien = new Alien(100, new RandomlyMoving());
             scene.addActor(alien, getPosX() + getWidth() / 2, getPosY() + getHeight() / 2);
             remainingEnemies--;
         }

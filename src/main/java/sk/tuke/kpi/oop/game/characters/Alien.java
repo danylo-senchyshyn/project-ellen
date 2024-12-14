@@ -12,7 +12,6 @@ import sk.tuke.kpi.gamelib.graphics.Animation;
 import sk.tuke.kpi.gamelib.graphics.Point;
 import sk.tuke.kpi.gamelib.messages.Topic;
 import sk.tuke.kpi.oop.game.Movable;
-import sk.tuke.kpi.oop.game.Reactor;
 import sk.tuke.kpi.oop.game.behaviours.Behaviour;
 import sk.tuke.kpi.oop.game.items.Ammo;
 import sk.tuke.kpi.oop.game.items.Energy;
@@ -20,14 +19,11 @@ import sk.tuke.kpi.oop.game.items.Energy;
 import java.util.List;
 import java.util.Random;
 
-import static sk.tuke.kpi.oop.game.Locker.Item.ammo;
-
 public class Alien extends AbstractActor implements Movable, Enemy, Alive {
     private Health health;
     private Disposable alienAttack = null;
     private Behaviour<? super Alien> behavior;
     public static final Topic<Point> ALIEN_DEAD = Topic.create("alien dead", Point.class);
-    private Body body = new Body();
 
     public Alien() {
         setAnimation(new Animation("sprites/alien.png", 32, 32, 0.1f, Animation.PlayMode.LOOP_PINGPONG));

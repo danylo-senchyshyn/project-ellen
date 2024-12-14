@@ -35,10 +35,10 @@ public class Ripley extends AbstractActor implements Movable, Keeper, Alive, Arm
         ripleyAnimation.stop();
         setAnimation(ripleyAnimation);
         speed = 2;
-        ammo = 1000;
+        ammo = 100;
         backpack = new Backpack("Ripley's backpack", 10);
         disposable = null;
-        gun = new Gun(500, 1500);
+        gun = new Gun(50, 150);
         health = new Health(100, 100);
         health.onFatigued(() -> {
             ripleyDied();

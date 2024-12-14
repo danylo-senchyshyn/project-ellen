@@ -6,11 +6,9 @@ import sk.tuke.kpi.gamelib.*;
 import sk.tuke.kpi.gamelib.actions.ActionSequence;
 import sk.tuke.kpi.gamelib.actions.Invoke;
 import sk.tuke.kpi.gamelib.actions.Wait;
-import sk.tuke.kpi.gamelib.graphics.Animation;
 import sk.tuke.kpi.oop.game.*;
 import sk.tuke.kpi.oop.game.Logo.GameOver;
 import sk.tuke.kpi.oop.game.behaviours.FollowActor;
-import sk.tuke.kpi.oop.game.behaviours.RandomlyMoving;
 import sk.tuke.kpi.oop.game.characters.*;
 import sk.tuke.kpi.oop.game.controllers.KeeperController;
 import sk.tuke.kpi.oop.game.controllers.MovableController;
@@ -18,8 +16,6 @@ import sk.tuke.kpi.oop.game.controllers.ShooterController;
 import sk.tuke.kpi.oop.game.items.*;
 import sk.tuke.kpi.oop.game.openables.Door;
 import sk.tuke.kpi.oop.game.openables.DoorStrong;
-
-import java.util.Objects;
 
 import static sk.tuke.kpi.oop.game.characters.Ripley.RIPLEY_DIED;
 
@@ -42,24 +38,26 @@ public class MyScenario implements SceneListener {
                 return new DoorStrong(DoorStrong.DoorStrongNumber.third);
             } else if (name.equals("ellen")) {
                 return new Ripley();
-            } else if (name.equals("invise")) {
-                return new Invise();
             } else if (name.equals("energy")) {
                 return new Energy();
             } else if (name.equals("access card")) {
                 return new AccessCard();
             } else if (name.equals("ventilator")) {
                 return new Ventilator();
-            } /* else if (name.equals("alien")) {
+            } else if (name.equals("locker") && type.equals("ammo")) {
+                return new Locker(Locker.Item.ammo);
+            } else if (name.equals("alien")) {
                 return new Alien(100, new FollowActor());
             } else if (name.equals("mother alien")) {
                 return new MotherAlien(new FollowActor());
-            } */ else if (name.equals("ammo")) {
+            }  else if (name.equals("ammo")) {
                 return new Ammo();
             } else if (name.equals("spawn point") && type.equals("first")) {
-                return new SpawnPoint(0);
+                return new SpawnPoint(2);
             } else if (name.equals("spawn point") && type.equals("second")) {
-                return new SpawnPoint(0);
+                return new SpawnPoint(3);
+            } else if (name.equals("spawn point") && type.equals("third")) {
+                return new SpawnPoint(4);
             } else if (name.equals("subway") && type.equals("first")) {
                 return new Subway(Subway.Status.first);
             } else if (name.equals("subway") && type.equals("second")) {
@@ -79,7 +77,7 @@ public class MyScenario implements SceneListener {
             } else if (name.equals("light")) {
                 return new Light();
             } else if (name.equals("monster boss")) {
-                return new MonsterBoss(100, new FollowActor());
+                return new MonsterBoss(1000, new FollowActor());
             } else if (name.equals("engine")) {
                 return new Engine();
             } else {
@@ -115,7 +113,7 @@ public class MyScenario implements SceneListener {
             movableCon.dispose();
             keeperCon.dispose();
             shooterCon.dispose();
-            //scene.addActor(gameOver, ellen.getPosX() - gameOver.getWidth() / 2, ellen.getPosY() - gameOver.getHeight() / 2);
+            scene.addActor(gameOver, ellen.getPosX() - gameOver.getWidth() / 2, ellen.getPosY() - gameOver.getHeight() / 2);
         });
 
         scene.getMessageBus().subscribe(DoorStrong.DOOR_STRONG_OPENED, (event) -> {
@@ -130,9 +128,11 @@ public class MyScenario implements SceneListener {
             Body body = new Body();
             scene.addActor(body, point.getX(), point.getY());
         });
+
         scene.getMessageBus().subscribe(MotherAlien.MOTHER_ALIEN_DEAD, (event) -> {
             scene.addActor(lockerMjolnir, 224, 960 - 928 - 16);
         });
+
         scene.getMessageBus().subscribe(MonsterBoss.MONSTER_BOSS_DEAD, (event) -> {
             new ActionSequence<>(
                 new Wait<>(1),
@@ -143,10 +143,15 @@ public class MyScenario implements SceneListener {
         scene.getMessageBus().subscribe(Reactor.REACTOR_FIXED, (event) -> {
             for (Actor actor : scene.getActors()) {
                 if (actor instanceof Subway) {
-                    ((Subway) actor).setAn(Subway.Status.second);
+                    ((Subway) actor).setAnimationBasedOnStatus(Subway.Status.second);
                 }
             }
+            new ActionSequence<>(
+                new Wait<>(5),
+                new Invoke<>(() -> reactor.turnOff())
+            ).scheduleFor(ellen);
         });
+
         scene.getMessageBus().subscribe(Reactor.REACTOR_EXPLODED, (event) -> {
             ellen.getHealth().drain(100);
         });
@@ -154,7 +159,7 @@ public class MyScenario implements SceneListener {
         scene.getMessageBus().subscribe(Helicopter.HELICOPTER_EXPLODED, (event) -> {
             for (Actor actor : scene.getActors()) {
                 if (actor instanceof Subway) {
-                    ((Subway) actor).setAn(Subway.Status.second);
+                    ((Subway) actor).setAnimationBasedOnStatus(Subway.Status.second);
                 }
             }
         });

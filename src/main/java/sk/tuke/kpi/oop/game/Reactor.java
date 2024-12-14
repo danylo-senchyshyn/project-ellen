@@ -6,7 +6,6 @@ import sk.tuke.kpi.gamelib.graphics.Animation;
 import sk.tuke.kpi.gamelib.map.MapTile;
 import sk.tuke.kpi.gamelib.messages.Topic;
 import sk.tuke.kpi.oop.game.actions.PerpetualReactorHeating;
-import sk.tuke.kpi.oop.game.items.Hammer;
 
 import java.util.HashSet;
 import java.util.Objects;

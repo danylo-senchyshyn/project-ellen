@@ -11,8 +11,8 @@ public class MotherAlien extends Alien {
     public static final Topic<MotherAlien> MOTHER_ALIEN_DEAD = Topic.create("mother alien dead", MotherAlien.class);
 
     public MotherAlien(Behaviour<? super Alien> behaviour) {
-        super(200, behaviour);
-        setAnimation(new Animation("sprites/mother.png", 112, 162, 0.2f));
+        super(300, behaviour);
+        setAnimation(new Animation("sprites/mother.png", 112, 162, 0.2f, Animation.PlayMode.LOOP_PINGPONG));
     }
 
     public void checkIsAlive() {
