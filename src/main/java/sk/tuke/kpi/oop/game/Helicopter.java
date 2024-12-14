@@ -72,7 +72,7 @@ public class Helicopter extends AbstractActor {
         this.setPosition(newPositionX, newPositionY);
 
         if (this.intersects(ripley)) {
-            ripley.getHealth().drain(0.5f);
+            ripley.getHealth().drain(1);
         }
     }
 

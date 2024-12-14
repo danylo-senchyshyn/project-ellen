@@ -4,38 +4,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Health {
-    private float maxHealth;
-    private float currentHealth;
+    private int maxHealth;
+    private int currentHealth;
     private List<FatigueEffect> effect;
     private boolean isExhausted;
 
-    public Health(float initialHealth, float maxHealth) {
+    public Health(int initialHealth, int maxHealth) {
         this.currentHealth = initialHealth;
         this.maxHealth = maxHealth;
         this.effect = new ArrayList<>();
         this.isExhausted = false;
     }
 
-    public Health(float initialHealth) {
+    public Health(int initialHealth) {
         currentHealth = initialHealth;
         maxHealth = currentHealth;
-        this.effect = new ArrayList<>();
-        this.isExhausted = false;
     }
 
-    public float getValue() {
+    public int getValue() {
         return currentHealth;
     }
 
-    public void setCurrentHealth(float currentHealth) {
+    public void setCurrentHealth(int currentHealth) {
         this.currentHealth = currentHealth;
     }
 
-    public void setMaxHealth(float maxHealth) {
+    public void setMaxHealth(int maxHealth) {
         this.maxHealth = maxHealth;
     }
 
-    public void refill(float amount) {
+    public void refill(int amount) {
         currentHealth = Math.min(currentHealth + amount, maxHealth);
         if (currentHealth > 0) {
             isExhausted = false;
@@ -47,7 +45,7 @@ public class Health {
         isExhausted = false;
     }
 
-    public void drain(float amount) {
+    public void drain(int amount) {
         currentHealth = Math.max(currentHealth - amount, 0);
         if (currentHealth == 0) exhaust();
     }

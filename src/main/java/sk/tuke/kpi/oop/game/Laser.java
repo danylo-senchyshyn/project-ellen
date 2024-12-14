@@ -27,7 +27,7 @@ public class Laser extends AbstractActor {
         for (Actor actor : getScene().getActors()) {
             if (actor instanceof Alive && !(actor instanceof Enemy) && this.intersects(actor)) {
                 Alive aliveActor = (Alive) actor;
-                aliveActor.getHealth().drain(0.3f);
+                aliveActor.getHealth().drain(1);
             }
         }
     }

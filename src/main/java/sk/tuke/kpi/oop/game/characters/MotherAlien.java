@@ -30,4 +30,14 @@ public class MotherAlien extends Alien {
             new Invoke<>(this::checkIsAlive)
         ).scheduleFor(this);
     }
+
+    @Override
+    public void attackNearbyAlive() {
+        super.attackNearbyAlive();
+    }
+
+    @Override
+    public void stopAttack() {
+        super.stopAttack();
+    }
 }

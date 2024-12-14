@@ -19,7 +19,6 @@ public class Use<A extends Actor> extends AbstractAction<A> {
         A actor = getActor();
 
         if (actor != null) {
-            System.out.println("use");
             item.useWith(actor);
         }
         setDone(true);

@@ -22,14 +22,13 @@ public abstract class Firearm {
         return maxAmmo;
     }
 
-    public void reload(int newAmmo) {
-        if (getAmmo() + newAmmo < maxAmmo) {
-            currentAmmo += newAmmo;
+    public void reload(int plusAmmo) {
+        if (getAmmo() + plusAmmo < maxAmmo) {
+            currentAmmo += plusAmmo;
         }
         else {
             currentAmmo = maxAmmo;
         }
-        System.out.println("reload");
     }
 
     public Fireable fire() {

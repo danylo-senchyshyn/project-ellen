@@ -20,7 +20,6 @@ public class Subway extends AbstractActor {
     public enum Status {first, second, third, fourth, fifth, sixth}
     private final Status status;
     private Animation animation;
-    private LevelCleared levelCleared = new LevelCleared();
     private final Map<Status, Point> subwayPositions = new EnumMap<>(Status.class);
 
     public Subway(Status status) {
@@ -51,37 +50,19 @@ public class Subway extends AbstractActor {
         if (player == null) return;
 
         if (isPlayerInBounds(player, subwayPositions.get(Status.first))) {
-            teleportPlayer(player, subwayPositions.get(Status.second), Animation.PlayMode.ONCE_REVERSED);
+            teleportPlayer(player, subwayPositions.get(Status.second));
         } else if (isPlayerInBounds(player, subwayPositions.get(Status.third))) {
-            teleportPlayer(player, subwayPositions.get(Status.fourth), Animation.PlayMode.ONCE);
+            teleportPlayer(player, subwayPositions.get(Status.fourth));
             setAnimationBasedOnStatus(Status.fifth);
         } else if (isPlayerInBounds(player, subwayPositions.get(Status.fifth))) {
-            teleportPlayer(player, subwayPositions.get(Status.sixth), Animation.PlayMode.ONCE);
-            //showLevelCleared();
+            teleportPlayer(player, subwayPositions.get(Status.sixth));
         }
     }
 
-    private void teleportPlayer(Actor player, Point target, Animation.PlayMode playMode) {
+    private void teleportPlayer(Actor player, Point target) {
         if (target == null) return;
 
-        animation.setFrameDuration(0.25f);
-        animation.setPlayMode(playMode);
-        animation.stop();
-
         player.setPosition(target.getX() + 16, target.getY() - 16);
-
-        //showLevelCleared();
-    }
-
-    private void showLevelCleared() {
-        Ripley ripley = getScene().getLastActorByType(Ripley.class);
-
-        getScene().addActor(levelCleared, ripley.getPosX() - levelCleared.getWidth() / 2, ripley.getPosY() - levelCleared.getHeight() / 2);
-
-        new ActionSequence<>(
-            new Wait<>(1),
-            new Invoke<>(() -> getScene().removeActor(levelCleared))
-        ).scheduleFor(this);
     }
 
     private boolean isPlayerInBounds(Actor player, Point position) {
@@ -99,7 +80,7 @@ public class Subway extends AbstractActor {
         if (status == Status.third || status == Status.fifth) {
             animation = new Animation("maps/alienbreed-sprites/invisible.png");
         } else {
-            animation = new Animation("maps/alienbreed-sprites/tunnel_transparent.png", 32, 32, 0.2f, Animation.PlayMode.LOOP);
+            animation = new Animation("maps/alienbreed-sprites/tunnel_black.png", 32, 32, 0.2f, Animation.PlayMode.LOOP);
         }
         setAnimation(animation);
     }

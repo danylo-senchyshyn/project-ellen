@@ -12,6 +12,10 @@ public class Locker extends AbstractActor implements Usable<Ripley> {
     private boolean isUsed;
     private Item item;
     public enum Item {mjolnir, wrench, energy, ammo}
+    private Mjolnir mjolnir = new Mjolnir();
+    private Wrench wrench = new Wrench();
+    private Energy energy = new Energy();
+    private Ammo ammo = new Ammo();
 
     public Locker(Item item) {
         lockerClosed = new Animation("maps/alienbreed-sprites/chest.png", 16, 16);
@@ -30,16 +34,16 @@ public class Locker extends AbstractActor implements Usable<Ripley> {
 
         switch (item) {
             case mjolnir:
-                getScene().addActor(new Mjolnir(), getPosX(), getPosY());
+                getScene().addActor(mjolnir, getPosX(), getPosY() + 16);
                 break;
             case wrench:
-                getScene().addActor(new Wrench(), getPosX(), getPosY());
+                getScene().addActor(wrench, getPosX() + 16, getPosY() + 16);
                 break;
             case energy:
-                getScene().addActor(new Energy(), getPosX(), getPosY());
+                getScene().addActor(energy, getPosX(), getPosY() - 16);
                 break;
             case ammo:
-                getScene().addActor(new Ammo(), getPosX(), getPosY());
+                getScene().addActor(ammo, getPosX(), getPosY() - 16);
                 break;
         }
 
