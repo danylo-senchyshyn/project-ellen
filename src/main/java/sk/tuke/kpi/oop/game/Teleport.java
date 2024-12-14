@@ -11,10 +11,12 @@ public class Teleport extends AbstractActor {
     private Teleport destination;
     private boolean canTeleport = true;
 
-    public Teleport(Teleport destination) {
+    public Teleport(Teleport destination, String name) {
+        super(name);
         this.destination = destination;
-        Animation teleportAnimation = new Animation("sprites/lift.png");
-        setAnimation(teleportAnimation);
+        //Animation teleportAnimation = new Animation("sprites/lift.png");
+        Animation pusto = new Animation("maps/alienbreed-sprites/invisible.png");
+        setAnimation(pusto);
     }
 
     public Teleport getDestination() {
@@ -68,6 +70,7 @@ public class Teleport extends AbstractActor {
 
         if (canTeleport && !isPlayerOutside(player) && this.destination != null && isPlayerInBounds) {
             destination.teleportPlayer(player);
+            System.out.println("yes");
         }
     }
 

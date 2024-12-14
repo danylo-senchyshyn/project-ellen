@@ -44,7 +44,7 @@ public class Bullet extends AbstractActor implements Fireable {
     private void shot() {
         for (Actor actor : getScene().getActors()) {
             if (this.intersects(actor) && actor instanceof Alive) {
-                ((Alive) actor).getHealth().drain(30);
+                ((Alive) actor).getHealth().drain(25);
                 collidedWithWall();
                 return;
             }

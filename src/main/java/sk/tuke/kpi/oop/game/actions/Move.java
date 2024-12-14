@@ -84,5 +84,4 @@ public class Move<A extends Movable> implements Action<A> {
         isDone = true;
         actor.stoppedMoving();
     }
-
 }

@@ -19,6 +19,7 @@ public class MovableController implements KeyboardListener {
     private Input.Key key2 = null;
     private Disposable disposable;
     private Move<Movable> moveAction = null;
+    private Direction lastDirection = Direction.NONE;
 
     public MovableController(Movable actor) {
         this.actor = actor;
@@ -62,13 +63,16 @@ public class MovableController implements KeyboardListener {
         }
         stopMoving();
 
-        if (currentDirection != null) {
+        if (currentDirection != null && currentDirection != Direction.NONE) {
+            lastDirection = currentDirection;
             moveAction = new Move<>(currentDirection, Float.MAX_VALUE);
             if (actor instanceof Ripley) {
                 disposable = moveAction.scheduleFor((Ripley) actor);
             } else {
                 disposable = moveAction.scheduleFor(actor);
             }
+        } else if (actor.getAnimation() != null) {
+            actor.getAnimation().setRotation(lastDirection.getAngle());
         }
     }
 

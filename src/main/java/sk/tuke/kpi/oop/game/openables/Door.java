@@ -85,7 +85,6 @@ public class Door extends AbstractActor implements Openable, Usable<Actor> {
 
         doorAnimation.setPlayMode(Animation.PlayMode.ONCE_REVERSED);
         doorAnimation.play();
-        doorAnimation.stop();
         getScene().getMessageBus().publish(DOOR_CLOSED, this);
 
         setAnimation(doorAnimation);

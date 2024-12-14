@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="100" height="60" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="49">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="100" height="60" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="118">
  <tileset firstgid="1" name="tileset01" tilewidth="16" tileheight="16" tilecount="500" columns="20">
   <image source="alienbreed-sprites/tileset01.png" width="320" height="400"/>
  </tileset>
@@ -8,26 +8,55 @@
  </tileset>
  <layer id="1" name="map" width="100" height="60">
   <data encoding="base64" compression="zlib">
-   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
+   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
   </data>
  </layer>
- <layer id="4" name="walls" width="100" height="60">
+ <layer id="4" name="walls" width="100" height="60" visible="0">
   <data encoding="base64" compression="zlib">
-   eJzt1zEKwCAQRUHB+x8wN/AY6YPCFxKzxQxsYbuvkG0NAAAAAAAAAAAAAAAAAAAAAAAAgAqu/u4wN3o2yQ7TXeuxNoLd6HGOHrXoUcush//jP6sez7ceZ+hRix617PRwD34vvQdv0PNmRQ==
+   eJzt21FqwkAQgOEtuWiP5lF6DHuCeoxS2kAa3TizuHag3wf7YFj3YX6MBPG8tHZ+4PoPPl7a64T1de5DZ6iHHn9hnd2MM/XI06MWPWrRoxY9asn0iO7VY5wetWRnHNmvxzg9atGjFj1q0aMWPWq5N999h0gXPcbpUUtkrtkmeoy7NdP1dabH9oxtD7/X5vR6ZNb6nqMziUn0eNut7n1Lj3GRHj/XfvXo7eudScxRj921qx69/XqMSzwPdnuMnsm1zf3mdGftvz9OI88mHEv0uLX0AAAAAAAAAAAAmOB9mb9o7bLE1ux56fHtEpiDHs+jRy161KJHLXrU0uux/S+sHs/j81FLpofnwfmiz4OfERvXEQ==
   </data>
  </layer>
  <objectgroup id="8" name="actors">
-  <object id="5" name="ellen" x="1552" y="832" width="16" height="16"/>
-  <object id="21" name="teleport1" x="1536" y="896" width="48" height="48"/>
-  <object id="22" name="ammo" x="1536" y="880" width="16" height="16"/>
-  <object id="23" name="energy" x="1568" y="880" width="16" height="16"/>
-  <object id="24" name="door" type="vertical" x="1520" y="896" width="16" height="32"/>
-  <object id="25" name="access card" x="1504" y="880" width="16" height="16"/>
-  <object id="27" name="spawn point" x="1456" y="912" width="32" height="32"/>
-  <object id="31" name="locker" x="48" y="816" width="48" height="16"/>
+  <object id="24" name="door" type="vertical" x="1536" y="912" width="16" height="32"/>
+  <object id="25" name="access card" x="1520" y="896" width="16" height="16"/>
+  <object id="27" name="spawn point" type="first" x="1456" y="912" width="32" height="32"/>
   <object id="36" name="alien" x="112" y="928" width="16" height="16"/>
-  <object id="38" name="mother alien" x="192" y="864" width="32" height="32"/>
-  <object id="40" name="reactor" x="224" y="832" width="80" height="80"/>
-  <object id="46" name="teleport" x="16" y="849" width="48" height="48"/>
+  <object id="38" name="mother alien" x="224" y="912" width="32" height="32"/>
+  <object id="40" name="reactor" x="304" y="816" width="80" height="80"/>
+  <object id="53" name="subway" type="second" x="16" y="848" width="32" height="32"/>
+  <object id="64" name="subway" type="first" x="1552" y="912" width="32" height="32"/>
+  <object id="68" name="spawn point" type="second" x="16" y="912" width="32" height="32"/>
+  <object id="72" name="door strong" type="first" x="144" y="864" width="16" height="32"/>
+  <object id="77" name="light" x="288" y="816" width="16" height="16"/>
+  <object id="82" name="locker" type="mjolnir" x="224" y="928" width="16" height="16"/>
+  <object id="5" name="ellen" x="1552.25" y="831.667" width="16" height="16">
+   <polygon points="0,0 16,0 16,16 0,16"/>
+  </object>
+  <object id="83" name="subway" type="third" x="352" y="912" width="32" height="32"/>
+  <object id="110" name="subway" type="third" x="352" y="912" width="32" height="32"/>
+  <object id="84" name="door strong" type="second" x="160" y="864" width="16" height="32"/>
+  <object id="85" name="door strong" type="third" x="176" y="864" width="16" height="32"/>
+  <object id="86" name="monster boss" x="121" y="177" width="78" height="127"/>
+  <object id="89" name="subway" type="fourth" x="16" y="32" width="32" height="32"/>
+  <object id="93" name="helicopter" x="128" y="48" width="64" height="64"/>
+  <object id="96" name="laser" x="144" y="896" width="16" height="48"/>
+  <object id="97" name="laser" x="160" y="896" width="16" height="48"/>
+  <object id="98" name="laser" x="176" y="896" width="16" height="48"/>
+  <object id="99" name="subway" type="fifth" x="144" y="144" width="32" height="32"/>
+  <object id="100" name="alien" x="16" y="816" width="16" height="16"/>
+  <object id="101" name="laser" x="144" y="816" width="16" height="48"/>
+  <object id="102" name="laser" x="144" y="816" width="16" height="48"/>
+  <object id="103" name="laser" x="144" y="816" width="16" height="48"/>
+  <object id="104" name="laser" x="160" y="816" width="16" height="48"/>
+  <object id="105" name="laser" x="160" y="816" width="16" height="48"/>
+  <object id="106" name="laser" x="160" y="816" width="16" height="48"/>
+  <object id="107" name="laser" x="176" y="816" width="16" height="48"/>
+  <object id="108" name="laser" x="176" y="816" width="16" height="48"/>
+  <object id="109" name="laser" x="176" y="816" width="16" height="48"/>
+  <object id="111" name="subway" type="sixth" x="1408" y="32" width="32" height="32">
+   <polygon points="0,0 32,0 32,32 0,32"/>
+  </object>
+  <object id="115" name="engine" x="1376" y="304" width="64" height="96"/>
+  <object id="116" name="energy" x="48" y="64" width="16" height="16"/>
  </objectgroup>
 </map>

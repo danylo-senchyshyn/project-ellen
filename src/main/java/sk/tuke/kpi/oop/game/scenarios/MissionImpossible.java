@@ -29,8 +29,8 @@ public class MissionImpossible implements SceneListener {
                     return new Ripley();
                 case "energy":
                     return new Energy();
-                case "locker":
-                    return new Locker();
+//                case "locker":
+//                    return new Locker();
                 case "ventilator":
                     return new Ventilator();
                 default:

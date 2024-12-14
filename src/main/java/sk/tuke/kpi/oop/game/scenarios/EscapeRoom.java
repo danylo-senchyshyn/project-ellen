@@ -34,8 +34,8 @@ public class EscapeRoom implements SceneListener {
                     return new Energy();
                 case "access card":
                     return new AccessCard();
-                case "locker":
-                    return new Locker();
+                //case "locker":
+                    //return new Locker();
                 case "ventilator":
                     return new Ventilator();
                 case "alien":
@@ -66,7 +66,7 @@ public class EscapeRoom implements SceneListener {
         Disposable shooterCon = scene.getInput().registerListener(new ShooterController(ellen));
 
         SpawnPoint spawnPoint = new SpawnPoint(10);
-        scene.addActor(spawnPoint, 150, 250);
+        scene.addActor(spawnPoint, 400, 350);
 
         FireExtinguisher fireExtinguisher = new FireExtinguisher();
         AccessCard accessCard = new AccessCard();

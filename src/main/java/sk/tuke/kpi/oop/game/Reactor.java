@@ -3,9 +3,13 @@ package sk.tuke.kpi.oop.game;
 import sk.tuke.kpi.gamelib.Scene;
 import sk.tuke.kpi.gamelib.framework.AbstractActor;
 import sk.tuke.kpi.gamelib.graphics.Animation;
+import sk.tuke.kpi.gamelib.map.MapTile;
+import sk.tuke.kpi.gamelib.messages.Topic;
 import sk.tuke.kpi.oop.game.actions.PerpetualReactorHeating;
+import sk.tuke.kpi.oop.game.items.Hammer;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class Reactor extends AbstractActor implements Switchable, Repairable{
@@ -19,6 +23,9 @@ public class Reactor extends AbstractActor implements Switchable, Repairable{
     private final Animation offAnimation;
     private final Animation extinguishedAnimation;
     private Set<EnergyConsumer> devices;
+
+    public static final Topic<Reactor> REACTOR_FIXED = Topic.create("reactor fixed", Reactor.class);
+    public static final Topic<Reactor> REACTOR_EXPLODED = Topic.create("reactor exploded", Reactor.class);
 
     public Reactor() {
         this.temperature = 0;
@@ -47,6 +54,16 @@ public class Reactor extends AbstractActor implements Switchable, Repairable{
     @Override
     public void addedToScene(Scene scene) {
         super.addedToScene(scene);
+
+        for (int x = 0; x <= 5; x++) {
+            for (int y = 0; y <= 5; y++) {
+                Objects.requireNonNull(getScene())
+                    .getMap()
+                    .getTile((this.getPosX() / 16) + x, (this.getPosY() / 16) + y)
+                    .setType(MapTile.Type.WALL);
+            }
+        }
+
         new PerpetualReactorHeating(1).scheduleFor(this);
     }
 
@@ -61,7 +78,6 @@ public class Reactor extends AbstractActor implements Switchable, Repairable{
     public void removeDevice(EnergyConsumer device){
         device.setPowered(false);
         this.devices.remove(device);
-
     }
 
     public void increaseTemperature(int increment) {
@@ -78,6 +94,7 @@ public class Reactor extends AbstractActor implements Switchable, Repairable{
         if (temperature > 2000) {
             this.damage = Math.round((temperature - 2000) / 40);
             if (damage >= 100) {
+                getScene().getMessageBus().publish(REACTOR_EXPLODED, this);
                 damage = 100;
                 isOn = false;
             }
@@ -143,6 +160,7 @@ public class Reactor extends AbstractActor implements Switchable, Repairable{
             temperature = ((damage - 50) * 40) + 2000;
             damage = Math.max(damage - 50, 0);
             updateAnimation();
+            getScene().getMessageBus().publish(REACTOR_FIXED, this);
             return true;
         }
         return false;

@@ -1,5 +1,6 @@
 package sk.tuke.kpi.oop.game;
 
+import sk.tuke.kpi.gamelib.Scene;
 import sk.tuke.kpi.gamelib.framework.AbstractActor;
 import sk.tuke.kpi.gamelib.graphics.Animation;
 
@@ -10,12 +11,13 @@ public class Light extends AbstractActor implements Switchable, EnergyConsumer {
     private final Animation offAnimation;
 
     public Light() {
-        isOn = false;
-        isPowered = false;
+        isOn = true;
+        isPowered = true;
 
         onAnimation = new Animation("sprites/light_on.png", 16, 16);
         offAnimation = new Animation("sprites/light_off.png", 16, 16);
-        setAnimation(offAnimation);
+
+        setAnimation(onAnimation);
     }
 
     public boolean isPower() {
@@ -58,5 +60,10 @@ public class Light extends AbstractActor implements Switchable, EnergyConsumer {
                 setAnimation(offAnimation);
             }
         }
+    }
+
+    @Override
+    public void addedToScene(Scene scene) {
+        super.addedToScene(scene);
     }
 }

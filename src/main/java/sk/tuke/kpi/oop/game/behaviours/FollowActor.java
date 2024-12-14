@@ -7,22 +7,32 @@ import sk.tuke.kpi.gamelib.framework.actions.Loop;
 import sk.tuke.kpi.oop.game.Direction;
 import sk.tuke.kpi.oop.game.Movable;
 import sk.tuke.kpi.oop.game.actions.Move;
+import sk.tuke.kpi.oop.game.characters.Ripley;
 
-public class RandomlyMoving implements Behaviour<Movable> {
-    public void randomMove(Movable actor) {
-        int pomX = (int) (Math.random() * (3)) - 1;
-        int pomY = (int) (Math.random() * (3)) - 1;
+public class FollowActor implements Behaviour<Movable> {
+
+    public void followActor(Movable actor) {
+        Ripley ripley = actor.getScene().getLastActorByType(Ripley.class);
+        if (ripley == null) return;
+
+        int deltaX = Integer.compare(ripley.getPosX(), actor.getPosX());
+        int deltaY = Integer.compare(ripley.getPosY(), actor.getPosY());
+
+        //System.out.println("x " + deltaX);
+        //System.out.println("y " + deltaY);
 
         Direction direction = null;
 
         for (Direction value : Direction.values()) {
-            if (pomX == value.getDx() && pomY == value.getDy()) {
+            if (deltaX == value.getDx() && deltaY == value.getDy()) {
                 direction = value;
+                break;
             }
         }
+
         assert direction != null;
         actor.getAnimation().setRotation(direction.getAngle());
-        new Move<>(direction, 2).scheduleFor(actor);
+        new Move<>(direction, 0.5f).scheduleFor(actor);
     }
 
 
@@ -32,8 +42,8 @@ public class RandomlyMoving implements Behaviour<Movable> {
 
         new Loop<>(
             new ActionSequence<>(
-                new Invoke<>(() -> randomMove(actor)),
-                new Wait<>(2)
+                new Invoke<>(() -> followActor(actor)),
+                new Wait<>(0.5f)
             )
         ).scheduleFor(actor);
     }

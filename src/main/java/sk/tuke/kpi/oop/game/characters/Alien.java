@@ -9,33 +9,67 @@ import sk.tuke.kpi.gamelib.actions.Wait;
 import sk.tuke.kpi.gamelib.framework.AbstractActor;
 import sk.tuke.kpi.gamelib.framework.actions.Loop;
 import sk.tuke.kpi.gamelib.graphics.Animation;
+import sk.tuke.kpi.gamelib.graphics.Point;
+import sk.tuke.kpi.gamelib.messages.Topic;
 import sk.tuke.kpi.oop.game.Movable;
+import sk.tuke.kpi.oop.game.Reactor;
 import sk.tuke.kpi.oop.game.behaviours.Behaviour;
+import sk.tuke.kpi.oop.game.items.Ammo;
+import sk.tuke.kpi.oop.game.items.Energy;
 
 import java.util.List;
+import java.util.Random;
+
+import static sk.tuke.kpi.oop.game.Locker.Item.ammo;
 
 public class Alien extends AbstractActor implements Movable, Enemy, Alive {
     private Health health;
     private Disposable alienAttack = null;
     private Behaviour<? super Alien> behavior;
+    public static final Topic<Point> ALIEN_DEAD = Topic.create("alien dead", Point.class);
+    private Body body = new Body();
 
     public Alien() {
-        Animation alienAnimation = new Animation("sprites/alien.png", 32, 32, 0.1f, Animation.PlayMode.LOOP_PINGPONG);
-        setAnimation(alienAnimation);
+        setAnimation(new Animation("sprites/alien.png", 32, 32, 0.1f, Animation.PlayMode.LOOP_PINGPONG));
         health = new Health(100, 100);
-        health.onFatigued(() -> getScene().removeActor(this));
+        health.onFatigued(() -> {
+            spawnItemFromAlien();
+            getScene().getMessageBus().publish(ALIEN_DEAD, new Point(this.getPosX(), this.getPosY()));
+            getScene().removeActor(this);
+        });
     }
-
     public Alien(int healthValue, Behaviour<? super Alien> behaviour) {
         setAnimation(new Animation("sprites/alien.png", 32, 32, 0.1f, Animation.PlayMode.LOOP_PINGPONG));
         health = new Health(healthValue, 100);
         this.behavior = behaviour;
-        health.onFatigued(() -> getScene().removeActor(this));
+        health.onFatigued(() -> {
+            getScene().getMessageBus().publish(ALIEN_DEAD, new Point(this.getPosX(), this.getPosY()));
+            getScene().removeActor(this);
+        });
+    }
+
+    public void spawnItemFromAlien() {
+        for (Actor actor : getScene().getActors()) {
+            if (actor instanceof Alien) {
+                Ammo ammo = new Ammo();
+                Energy energy = new Energy();
+                Point pointAlien = new Point(actor.getPosX(), actor.getPosY());
+
+                Random random = new Random();
+                if (random.nextBoolean()) {
+                    if (random.nextBoolean()) {
+                        getScene().addActor(ammo, pointAlien.getX(), 960 - pointAlien.getY() - 32);
+                    } else {
+                        getScene().addActor(energy, pointAlien.getX(), 960 - pointAlien.getY() - 32);
+                    }
+                }
+            }
+        }
     }
 
     @Override
     public int getSpeed() {
-        return 2;
+        return 1;
     }
 
     @Override

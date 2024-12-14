@@ -11,13 +11,14 @@ public class Main {
         WindowSetup windowSetup = new WindowSetup("Project Ellen", 800, 600);
         Game game = new GameApplication(windowSetup, new Lwjgl2Backend());
 
-        //Scene scene = new World("My World", "maps/map.tmx", new MyScenario.Factory());
-        Scene scene = new World("My World", "maps/escape-room.tmx", new EscapeRoom.Factory());
-        //MyScenario myScenario = new MyScenario();
-        EscapeRoom escapeRoom = new EscapeRoom();
+        Scene scene = new World("My World", "maps/map.tmx", new MyScenario.Factory());
+        //Scene scene = new World("My World", "maps/escape-room.tmx", new EscapeRoom.Factory());
+        MyScenario myScenario = new MyScenario();
+        //EscapeRoom escapeRoom = new EscapeRoom();
 
         game.addScene(scene);
-        scene.addListener(escapeRoom);
+        //scene.addListener(escapeRoom);
+        scene.addListener(myScenario);
         game.getInput().onKeyPressed(Input.Key.ESCAPE, game::stop);
         game.start();
     }

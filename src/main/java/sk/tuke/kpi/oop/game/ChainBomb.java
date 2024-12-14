@@ -27,7 +27,6 @@ public class ChainBomb extends TimeBomb {
         System.out.println(Ellipse.getCenterY());
 
         List<Actor> actorslist = getScene().getActors();
-
         for (Actor actor : actorslist) {
             if ( actor instanceof ChainBomb && !( (ChainBomb) actor).isActivated() ) {
                 Rectangle2D.Float nextChainBomb = new Rectangle2D.Float(

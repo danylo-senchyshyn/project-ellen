@@ -7,10 +7,12 @@ import sk.tuke.kpi.oop.game.actions.Drop;
 import sk.tuke.kpi.oop.game.actions.Shift;
 import sk.tuke.kpi.oop.game.actions.Take;
 import sk.tuke.kpi.oop.game.actions.Use;
+import sk.tuke.kpi.oop.game.items.AccessCard;
 import sk.tuke.kpi.oop.game.items.Usable;
 
 public class KeeperController implements KeyboardListener {
     private Keeper keeper;
+    private AccessCard accessCard;
 
     public KeeperController(Keeper keeper) {
         this.keeper = keeper;
@@ -35,6 +37,13 @@ public class KeeperController implements KeyboardListener {
     }
 
     private void useActionU() {
+        boolean hasAccessCard = keeper.getBackpack().getContent().stream()
+            .anyMatch(item -> item instanceof AccessCard);
+
+        if (!hasAccessCard) {
+            return;
+        }
+
         Usable<?> usable = keeper.getScene().getActors().stream()
             .filter(Usable.class::isInstance)
             .filter(keeper::intersects)

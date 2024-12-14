@@ -7,18 +7,18 @@ import sk.tuke.kpi.gamelib.graphics.Animation;
 import sk.tuke.kpi.gamelib.messages.Topic;
 import sk.tuke.kpi.oop.game.behaviours.Behaviour;
 
-public class MotherAlien extends Alien {
-    public static final Topic<MotherAlien> MOTHER_ALIEN_DEAD = Topic.create("mother alien dead", MotherAlien.class);
+public class MonsterBoss extends Alien {
+    public static final Topic<MonsterBoss> MONSTER_BOSS_DEAD = Topic.create("monster boss dead", MonsterBoss.class);
 
-    public MotherAlien(Behaviour<? super Alien> behaviour) {
-        super(200, behaviour);
-        setAnimation(new Animation("sprites/mother.png", 112, 162, 0.2f));
+    public MonsterBoss(int healthValue, Behaviour<? super Alien> behaviour) {
+        super(healthValue, behaviour);
+        setAnimation(new Animation("maps/alienbreed-sprites/monster_2.png", 78, 127, 0.1f));
     }
 
     public void checkIsAlive() {
         if (this.getHealth().getValue() <= 0) {
-            getScene().getMessageBus().publish(MOTHER_ALIEN_DEAD, this);
-            System.out.println("mother dead");
+            getScene().getMessageBus().publish(MONSTER_BOSS_DEAD, this);
+            System.out.println("monster boss dead");
         }
     }
 
