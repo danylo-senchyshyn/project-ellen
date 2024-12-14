@@ -42,7 +42,6 @@
   <object id="96" name="laser" x="144" y="896" width="16" height="48"/>
   <object id="97" name="laser" x="160" y="896" width="16" height="48"/>
   <object id="98" name="laser" x="176" y="896" width="16" height="48"/>
-  <object id="99" name="subway" type="fifth" x="144" y="144" width="32" height="32"/>
   <object id="100" name="alien" x="32" y="800" width="16" height="16"/>
   <object id="103" name="laser" x="144" y="784" width="16" height="48"/>
   <object id="106" name="laser" x="160" y="784" width="16" height="48"/>

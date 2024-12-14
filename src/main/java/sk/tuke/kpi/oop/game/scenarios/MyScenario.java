@@ -66,8 +66,6 @@ public class MyScenario implements SceneListener {
                 return new Subway(Subway.Status.third);
             } else if (name.equals("subway") && type.equals("fourth")) {
                 return new Subway(Subway.Status.fourth);
-            } else if (name.equals("subway") && type.equals("fifth")) {
-                return new Subway(Subway.Status.fifth);
             } else if (name.equals("subway") && type.equals("sixth")) {
                 return new Subway(Subway.Status.sixth);
             } else if (name.equals("laser")) {
@@ -98,6 +96,7 @@ public class MyScenario implements SceneListener {
 
         Ripley ellen = scene.getFirstActorByType(Ripley.class);
         scene.follow(ellen);
+
 
         Disposable movableCon = scene.getInput().registerListener(new MovableController(ellen));
         Disposable keeperCon = scene.getInput().registerListener(new KeeperController(ellen));
@@ -157,11 +156,7 @@ public class MyScenario implements SceneListener {
         });
 
         scene.getMessageBus().subscribe(Helicopter.HELICOPTER_EXPLODED, (event) -> {
-            for (Actor actor : scene.getActors()) {
-                if (actor instanceof Subway) {
-                    ((Subway) actor).setAnimationBasedOnStatus(Subway.Status.second);
-                }
-            }
+            scene.addActor(new Subway(Subway.Status.fifth), 144, 920 - 144 - 16);
         });
     }
 

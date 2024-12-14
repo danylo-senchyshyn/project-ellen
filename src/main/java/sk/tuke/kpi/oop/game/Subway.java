@@ -2,15 +2,14 @@ package sk.tuke.kpi.oop.game;
 
 import sk.tuke.kpi.gamelib.Actor;
 import sk.tuke.kpi.gamelib.Scene;
-import sk.tuke.kpi.gamelib.actions.ActionSequence;
 import sk.tuke.kpi.gamelib.actions.Invoke;
-import sk.tuke.kpi.gamelib.actions.Wait;
 import sk.tuke.kpi.gamelib.framework.AbstractActor;
 import sk.tuke.kpi.gamelib.framework.actions.Loop;
 import sk.tuke.kpi.gamelib.graphics.Animation;
 import sk.tuke.kpi.gamelib.graphics.Point;
-import sk.tuke.kpi.oop.game.Logo.LevelCleared;
+import sk.tuke.kpi.gamelib.messages.Topic;
 import sk.tuke.kpi.oop.game.characters.Ripley;
+import sk.tuke.kpi.oop.game.openables.DoorStrong;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -21,6 +20,7 @@ public class Subway extends AbstractActor {
     private final Status status;
     private Animation animation;
     private final Map<Status, Point> subwayPositions = new EnumMap<>(Status.class);
+    public static final Topic<Subway> PLAYER_ON_THIRD_LEVEL = Topic.create("player teleported on third level", Subway.class);
 
     public Subway(Status status) {
         this.status = status;
@@ -53,7 +53,6 @@ public class Subway extends AbstractActor {
             teleportPlayer(player, subwayPositions.get(Status.second));
         } else if (isPlayerInBounds(player, subwayPositions.get(Status.third))) {
             teleportPlayer(player, subwayPositions.get(Status.fourth));
-            setAnimationBasedOnStatus(Status.fifth);
         } else if (isPlayerInBounds(player, subwayPositions.get(Status.fifth))) {
             teleportPlayer(player, subwayPositions.get(Status.sixth));
         }
@@ -77,7 +76,7 @@ public class Subway extends AbstractActor {
     }
 
     public void setAnimationBasedOnStatus(Status status) {
-        if (status == Status.third || status == Status.fifth) {
+        if (status == Status.third) {
             animation = new Animation("maps/alienbreed-sprites/invisible.png");
         } else {
             animation = new Animation("maps/alienbreed-sprites/tunnel_black.png", 32, 32, 0.2f, Animation.PlayMode.LOOP);
