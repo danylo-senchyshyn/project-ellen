@@ -33,4 +33,4 @@ An enemy that attacks the player. Upon being defeated, it may drop ammo or energ
 1. Ensure you have **Java 17** and **Gradle** installed.
 2. Clone the repository:
    ```bash
-   git clone <repository_url>
+   git clone <git@github.com:danylo-senchyshyn/project-ellen.git>
