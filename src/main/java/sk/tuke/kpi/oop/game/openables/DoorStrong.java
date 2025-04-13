@@ -44,8 +44,6 @@ public class DoorStrong extends Door {
         animation.play();
         setAnimation(animation);
         getScene().getMessageBus().publish(DOOR_STRONG_OPENED, this);
-
-
     }
 
     @Override

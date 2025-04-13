@@ -27,7 +27,7 @@ public class Alien extends AbstractActor implements Movable, Enemy, Alive {
 
     public Alien() {
         setAnimation(new Animation("sprites/alien.png", 32, 32, 0.1f, Animation.PlayMode.LOOP_PINGPONG));
-        health = new Health(100, 100);
+        health = new Health(1000, 1000);
         health.onFatigued(() -> {
             spawnItemFromAlien();
             getScene().getMessageBus().publish(ALIEN_DEAD, new Point(this.getPosX(), this.getPosY()));
@@ -36,7 +36,7 @@ public class Alien extends AbstractActor implements Movable, Enemy, Alive {
     }
     public Alien(int healthValue, Behaviour<? super Alien> behaviour) {
         setAnimation(new Animation("sprites/alien.png", 32, 32, 0.1f, Animation.PlayMode.LOOP_PINGPONG));
-        health = new Health(healthValue, 100);
+        health = new Health(healthValue, 1000);
         this.behavior = behaviour;
         health.onFatigued(() -> {
             getScene().getMessageBus().publish(ALIEN_DEAD, new Point(this.getPosX(), this.getPosY()));

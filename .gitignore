@@ -1,8 +1,4 @@
-.idea/
-.gradle/
-build/
-out/
+*
 
-.DS_Store
-Thumbs.db
-
+!src/
+!src/**
